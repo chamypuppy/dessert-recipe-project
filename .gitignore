@@ -1,0 +1,20 @@
+# .gitignore
+
+# 환경 변수 파일 (.env) 제외
+.env
+backend/.env
+frontend/.env
+
+# node_modules 제외
+node_modules/
+
+# MySQL 관련 파일 제외 (민감한 정보 포함 시)
+backend/db/(전체)dessert-recipe-project-DB설계.sql
+backend/db/dessert-recipe+step-sql문.sql
+backend/db/dessert-recipe-project-DB설계.sql
+backend/db/dessert-recipe-sql문.sql
+backend/db/dessert-users-sql문.sql
+backend/db/users-sql문.sql
+
+# 빌드 결과물 제외 (React 프론트엔드)
+frontend/build/

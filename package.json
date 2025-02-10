@@ -1,0 +1,16 @@
+{
+  "name": "dessert-recipe-project",
+  "scripts": {
+    "start": "concurrently \"npm run start-backend\" \"npm run start-frontend\"",
+    "start-backend": "cd backend && npm start",
+    "start-frontend": "cd frontend && npm start"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.0"
+  },
+  "dependencies": {
+    "bootstrap": "^5.3.3",
+    "express-session": "^1.18.1",
+    "react-bootstrap": "^2.10.5"
+  }
+}
