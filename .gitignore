@@ -8,11 +8,6 @@ frontend/.env
 # node_modules 제외
 node_modules/
 
-#
-backend/db/(
-backend/db/헷갈리네
-backend/db/헷갈리네/dessert-recipe-project-DB설계.sql
-backend/db/헷갈리네/users-sql문.sql
 
 # MySQL 관련 파일 제외 (민감한 정보 포함 시)
 backend/db/(전체)dessert-recipe-project-DB설계.sql

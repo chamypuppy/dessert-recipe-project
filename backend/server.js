@@ -19,14 +19,19 @@ app.use(session({
   secret: process.env.SESSION_SECRET, // 비밀 키
   resave: false,
   saveUninitialized: true,
-  cookie: { secure: false, maxAge: 1000 * 60 * 60 * 3 }, // 개발 환경에서는 false, 배포 시에는 true로 변경
+  cookie: {
+    secure: false, 
+    httpOnly: true, // 클라이언트에서 쿠키 접근 방지
+    /* sameSite: 'lax', */ // 또는 'none' (배포 시 'none' + secure: true)
+    maxAge: 1000 * 60 * 60 * 3 }, // 개발 환경에서는 false, 배포 시에는 true로 변경
+    name: 'kakao_session'
 }));
 
 /* 5. CORS 미들웨어 설정 */
 //app.use(cors());
 app.use(cors({
-  origin: 'http://localhost:3000', // 프론트엔드 주소
-  credentials: true, // 인증 정보 허용
+  origin: 'http://localhost:3000',
+  credentials: true, // 인증 정보 허용 = 요청에 쿠키 포함
 }));
 
 /* 6. MySQL연결 설정 */
@@ -359,9 +364,9 @@ app.get('/auth/kakao/login/callback', async (req, res) => {
   /* 저장된 세션(userPkId)을 반환하는 API */
   app.get('/api/users/session', (req, res) => {
     if (req.session.userPkId) {
-      res.status(200).json({ userPkId: req.session.userPkId });
+      res.status(200).json({ loggedIn: true, userPkId: req.session.userPkId });
     } else {
-      res.status(401).json({ message: '로그인되지 않았습니다.' });
+      res.status(401).json({ loggedIn: false, message: '로그인되지 않았습니다.' });
     }
   });
 
@@ -369,14 +374,14 @@ app.get('/auth/kakao/login/callback', async (req, res) => {
   app.get('/api/users/:userPkId', (req, res) => {
     const userPkId = req.params.userPkId;
   
-    const query = 'SELECT users_kakao_id, users_id, users_name, DATE_FORMAT(signup_date, "%Y-%m-%d %H:%i:%s") AS format_signup_date, users_img FROM users WHERE users_pk_id = ? IS NOT NULL OR users_id IS NOT NULL'; // 우선순위가 의미없음
+    const query = 'SELECT users_kakao_id, users_id, users_name, DATE_FORMAT(signup_date, "%Y-%m-%d %H:%i:%s") AS format_signup_date, users_img FROM users WHERE users_pk_id = ?';
     db.query(query, [userPkId], (err, results) => {
       if (err) {
         console.error('💦MyPage API 사용자 정보 조회 오류: \n', err);
         return res.status(500).send('Mypage 사용자 정보 조회 오류');
       }
   
-      if (results.length > 0) {
+      if (results.length > 0) { //userPkId가 users 테이블에 존재하는지 유무 확인
         res.json(results[0]);
       } else {
         res.status(404).send('Mypage API 오류: 사용자 정보 없음');
@@ -399,11 +404,21 @@ app.get('/auth/kakao/login/callback', async (req, res) => {
             }
         });
 
-        console.log('🧡 카카오 로그아웃 성공:\n', response.data);
-        return res.status(200).json({ message: '로그아웃 성공!' });
 
-    } catch (error) {
-        console.error('카카오 로그아웃 오류:\n', error.response?.data || error.message);
-        return res.status(500).json({ message: '카카오 로그아웃 실패...' });
-    }
+         // 카카오 로그아웃 성공 후 세션 종료
+    req.session.destroy((err) => {
+      if (err) {
+        return res.status(500).json({ message: '세션 종료 중 오류 발생' });
+      }
+
+      // 쿠키 삭제
+      res.clearCookie('kakao_session');  // 설정한 세션 쿠키 이름으로 삭제
+
+      return res.status(200).json({ message: '로그아웃 성공!' });
+    });
+  } catch (error) {
+    console.error('카카오 로그아웃 오류:\n', error.response?.data || error.message);
+    return res.status(500).json({ message: '카카오 로그아웃 실패...' });
+  }
+  
 });
