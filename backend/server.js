@@ -282,12 +282,14 @@ app.get('/auth/kakao/login/callback', async (req, res) => {
     
     const { access_token } = tokenResponse.data;
 
+  
     if (!access_token) {
       console.error('💦 카카오 <액세스 토큰>이 없습니다.');
       return res.status(400).send('카카오 <액세스 토큰> 없음');
     }
 
-    //console.log('Access Token:', access_token); // 액세스 토큰이 제대로 나오는지 확인
+    /* res.json({ access_token }); */
+    console.log('Access Token:', access_token); // 액세스 토큰이 제대로 나오는지 확인
 
     // 5. Access Token으로 사용자 정보 요청
     const userInfoResponse = await axios.get('https://kapi.kakao.com/v2/user/me', {
@@ -322,10 +324,12 @@ app.get('/auth/kakao/login/callback', async (req, res) => {
       if (results.length > 0) {
         console.log('기존 사용자:', results);
 
-         // 세션에 userPkId 저장
+         // 세션에 userPkId, access token 저장
         req.session.userPkId = results[0].users_pk_id;  // `user_pk_id`는 db에서 가져오는 실제 컬럼명
+        req.session.access_token = access_token;
 
         console.log(req.session);
+        console.log("액세스토큰값: ", req.session.access_token);
         console.log("user_PK_ID 값:", results[0].users_pk_id);
         console.log("req.session.userPkId: ", req.session.userPkId);
     
@@ -391,30 +395,32 @@ app.get('/auth/kakao/login/callback', async (req, res) => {
 
   /* 카카오 ID 로그아웃하기 */
   app.post('/api/users/logout', async (req, res) => {
-    const accessToken = req.headers.authorization?.split(' ')[1]; // 'Bearer {ACCESS_TOKEN}'에서 토큰 추출
+    const accessToken = req.session.access_token;
 
     if (!accessToken) {
         return res.status(400).json({ message: '액세스 토큰이 없습니다.' });
     }
 
     try {
-        const response = await axios.post('https://kapi.kakao.com/v1/user/logout', {}, {
+        await axios.post('https://kapi.kakao.com/v1/user/logout', {}, {
             headers: {
                 'Authorization': `Bearer ${accessToken}`
             }
         });
 
 
-         // 카카오 로그아웃 성공 후 세션 종료
+         // 카카오 로그아웃 성공 후 세션 삭제
     req.session.destroy((err) => {
       if (err) {
-        return res.status(500).json({ message: '세션 종료 중 오류 발생' });
+        return res.status(500).json({ message: '로그아웃: 세션 삭제 중 에러 발생' });
       }
 
       // 쿠키 삭제
-      res.clearCookie('kakao_session');  // 설정한 세션 쿠키 이름으로 삭제
+      res.clearCookie('kakao_session');  // 기존에 설정했던 세션 쿠키명으로 삭제
+      //res.redirect('http://localhost:3000');
 
-      return res.status(200).json({ message: '로그아웃 성공!' });
+      return res.status(200).json({ message: '로그아웃: 쿠키 삭제 성공!' });
+            
     });
   } catch (error) {
     console.error('카카오 로그아웃 오류:\n', error.response?.data || error.message);
