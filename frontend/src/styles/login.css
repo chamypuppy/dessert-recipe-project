@@ -1,0 +1,5 @@
+.container_login_box {text-align: center; padding-bottom: 80%;}
+
+.login_box {height: 300px; display:flex; flex-direction: column; justify-content: space-evenly;}
+
+.container_login_box .l_box {line-height: 23px;}

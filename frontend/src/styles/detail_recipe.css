@@ -1,0 +1,51 @@
+/* 재료1, 재료2, 레시피 h3 style */
+@font-face {
+  font-family: 'Noto Sans KR';
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+  src: url('https://cdn.jsdelivr.net/gh/fonts-archive/NotoSansKR/NotoSansKR-Medium.woff2') format('woff2'),
+       url('https://cdn.jsdelivr.net/gh/fonts-archive/NotoSansKR/NotoSansKR-Medium.woff') format('woff'),
+       url('https://cdn.jsdelivr.net/gh/fonts-archive/NotoSansKR/NotoSansKR-Medium.otf') format('opentype');
+}
+
+/* recipe header 영역 */
+.recipe_img {width: 100%;}
+.recipe_title {margin-top: 10px;}
+.recipe_name {line-height: 35px; font-weight: 600; font-size: 1.25rem;}
+
+/* layout */
+/* detail_page_margin_box {margin-left: 10px; margin-right: 10px;} */
+
+/* recipe middle 영역 */
+.recipe_info {display: flex; justify-content: space-around; line-height: 30px; font-size: 1.1rem; margin-top: 25px; color:rgb(255, 129, 162);}
+.r_info {display: flex; flex-direction:column; align-items: center;}
+.r_info > div:first-child {font-size: 1.3rem;}
+
+.author_info {display: flex;}
+.au_info {display: flex; flex-direction: column; line-height: 30px;}
+.au_info div:first-child {font-weight: 600; font-size: 1.15rem;}
+.au_info div:last-child {}
+
+
+/* ingredient */
+.dr_ingredient, .detail_ingredient, .dr_i_ol, .dr_bk_tip, .dr_tag , .dr_t1 {margin-top: 35px;}
+.dr_i {white-space: pre-line; margin: 25px 0 50px 0;}
+
+/* baking step */
+.dr_i_ol {font-size: 1.1rem;}
+.dr_i_ol_step {font-size: 1.5rem; font-weight: 500;}
+
+.detail_ingredient, .dr_b_t, .dr_t {font-size: 1.3rem; font-weight: 700;} /* h3 글씨 style */
+.method_step, .recipe_tips {white-space: pre-line;}
+.dr_i_ol_step, .method_step {margin-bottom: 25px; line-height: 25px;}
+
+/* baking tip */
+.recipe_tips, .dr_t1 {margin-bottom: 50px;}
+.recipe_tips {line-height: 25px;}
+
+/* margin: hr_box를 제외한 모든 div에게 */
+#detail_margin_special {margin-left: 20px; margin-right: 20px;} /* layout */
+
+/* hr box */
+.detail_hr_box {margin: 15px 0;}
