@@ -91,8 +91,36 @@ app.get('/api/recipes', (req, res) => {
   });
 }); 
 
+/* DetailPage에 users_intro 가져오기 */
+app.get('/api/users_info/:recipePkId', (req, res) => {
+  const { recipePkId } = req.params;
+  const query = `
+    SELECT 
+    u.users_name,
+    u.users_intro
+    FROM recipe r
+    LEFT JOIN users u ON r.author_id = u.users_pk_id
+    WHERE r.recipe_pk_id = ?;
+  `;
+    db.query(query, [recipePkId], (err, results) => {
 
-//레시피 방법 불러오기 + recipe와 recipe_method 테이블의 공통된 recipe_pk_id랑 매칭되어야 함
+      if(err) {
+        console.error('💦users_info API의 DB 쿼리에 에러가 발생했습니다!: \n', err);
+      res.status(500).send('users_info API 오류');
+      } else {
+        if(results.length > 0) {
+          res.json({ users_name: results[0].users_name, 
+                     users_intro: results[0].users_intro });
+        } else {
+          res.status(404).send('해당 레시피에 맞는 유저가 아닙니다.');
+        }
+      }
+
+    })
+    
+});
+
+/* 레시피 방법 불러오기 + recipe와 recipe_method 테이블의 공통된 recipe_pk_id랑 매칭되어야 함 */
 app.get('/api/recipe_method', (req, res) => {
   const query = 
   `
@@ -412,9 +440,10 @@ app.get('/auth/kakao/login/callback', async (req, res) => {
          // 카카오 로그아웃 성공 후 세션 삭제
     req.session.destroy((err) => {
       if (err) {
+        console.error('세션 삭제 오류:', err);
         return res.status(500).json({ message: '로그아웃: 세션 삭제 중 에러 발생' });
       }
-
+      console.log('세션이 성공적으로 삭제되었습니다.');
       // 쿠키 삭제
       res.clearCookie('kakao_session');  // 기존에 설정했던 세션 쿠키명으로 삭제
       //res.redirect('http://localhost:3000');

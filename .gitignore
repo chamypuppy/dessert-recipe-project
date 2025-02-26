@@ -18,7 +18,7 @@ backend/db/dessert-users-sql문.sql
 backend/db/users-sql문.sql
 
 # 빌드 결과물 제외 (React 프론트엔드)
-#frontend/build/
+frontend/build/
 
 # bfg 관련 제외
 bfg-report/
