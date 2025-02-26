@@ -6,7 +6,8 @@ backend/.env
 frontend/.env
 
 # node_modules 제외
-node_modules/
+# node_modules/
+# railway 배포를 위해 주석처리함
 
 
 # MySQL 관련 파일 제외 (민감한 정보 포함 시)
