@@ -71,11 +71,11 @@
 --
 
 ### login
-<img src="https://github.com/chamypuppy/dessert-recipe-project/issues/4#issue-2916313500" width="500"/>
+<img src="https://github.com/user-attachments/assets/50fd2307-0d17-4dfd-9472-48a7effe248c" width="500"/>
 <br/><br/>
 
 ### logout
-<img src="https://github.com/chamypuppy/dessert-recipe-project/issues/5#issue-2972094932" width="500"/>
+<img src="https://github.com/user-attachments/assets/0ffeb162-a14b-44b4-979e-58aca7347790" width="500"/>
 <br/><br/>
 
 ### detail page1
