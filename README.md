@@ -71,15 +71,15 @@
 --
 
 ### login
-<img src="https://private-user-images.githubusercontent.com/91423376/422253218-ad87cff6-f2e2-41a3-8516-241468f6a739.gif?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3NDE4NTU2MTMsIm5iZiI6MTc0MTg1NTMxMywicGF0aCI6Ii85MTQyMzM3Ni80MjIyNTMyMTgtYWQ4N2NmZjYtZjJlMi00MWEzLTg1MTYtMjQxNDY4ZjZhNzM5LmdpZj9YLUFtei1BbGdvcml0aG09QVdTNC1ITUFDLVNIQTI1NiZYLUFtei1DcmVkZW50aWFsPUFLSUFWQ09EWUxTQTUzUFFLNFpBJTJGMjAyNTAzMTMlMkZ1cy1lYXN0LTElMkZzMyUyRmF3czRfcmVxdWVzdCZYLUFtei1EYXRlPTIwMjUwMzEzVDA4NDE1M1omWC1BbXotRXhwaXJlcz0zMDAmWC1BbXotU2lnbmF0dXJlPTNiOGI0NGJiMGY4MzBiYTEzM2JjNGM5YzM3NzlhMDM2NmVmNTllNGRlOTQ3ZGNhOWU3YWI5NzA5YzViYzc2MzUmWC1BbXotU2lnbmVkSGVhZGVycz1ob3N0In0.Df3PrfqYHjzOaWc7-yB93aSsW5e_zuQ7Vx9Arc5SXsg" width="500"/>
+<img src="https://github.com/chamypuppy/dessert-recipe-project/issues/4#issue-2916313500" width="500"/>
 <br/><br/>
 
 ### logout
-<img src="https://github.com/user-attachments/assets/7ff62a95-09aa-4490-bf30-01093a6f786c" width="500"/>
+<img src="https://github.com/chamypuppy/dessert-recipe-project/issues/5#issue-2972094932" width="500"/>
 <br/><br/>
 
 ### detail page1
-<img src="https://github-production-user-asset-6210df.s3.amazonaws.com/91423376/422249699-7a934fd9-802a-48cb-b806-021704b826c2.gif?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAVCODYLSA53PQK4ZA%2F20250313%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20250313T083406Z&X-Amz-Expires=300&X-Amz-Signature=5402c795bf9d8010870ad7eb150af7683b029e805a39c9b010c44e788ca94022&X-Amz-SignedHeaders=host" width="500"/>
+<img src="https://github.com/chamypuppy/dessert-recipe-project/issues/2#issue-2916288049" width="500"/>
 <br/><br/>
 
 ### detail page2
