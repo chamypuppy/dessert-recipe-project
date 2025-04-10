@@ -18,7 +18,7 @@ function Home ({ recipes }) {
   const [userPkId, setUserPkId] = useState(null);
   
   useEffect(() => {
-    // 서버에서 세션에 저장된 userPkId 값을 가져옵니다.
+    // 서버에서 세션에 저장된 userPkId 값 가져오기
     fetch('http://localhost:5000/api/users/session', {
       method: 'GET',
       credentials: 'include', // 세션 쿠키 포함 (CORS 설정에 따라 필요)
@@ -99,7 +99,7 @@ function Home ({ recipes }) {
 
   return (
       <div id='common_container'>
-        <header className='search' style={{paddingTop: '10px'}}>
+        <header className='search' /* style={{paddingTop: '10px', position: 'sticky', top:0, zIndex: 1, backgroundColor: 'black'}} */>
           <InputGroup className="mb-3">
             
             <Form.Control

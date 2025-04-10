@@ -62,7 +62,7 @@ useEffect(() => {
         </div>
         <button onClick={() => btnKakaoLogin()} 
         style={{border:"none", backgroundColor:"transparent"}}>
-          <img src='/imgs/kakao_login_medium_wide.png'
+          <img src='/imgs/kakao_login_medium_wide.webp'
           className='btn_kakao_login'
           alt="카카오 로그인 아이콘" />
         </button>

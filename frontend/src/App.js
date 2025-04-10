@@ -14,6 +14,8 @@ import Login from './components/Users/Login';
 import MyPage from './components/Users/MyPage';
 import Research from './components/Users/Research';
 import { Footer } from './components/Main/Footer';
+import { DragBackbtn } from './components/Main/DragBackbtn';
+import { DragHomebtn } from './components/Main/DragHomebtn';
 
 
 
@@ -50,6 +52,7 @@ function App() {
         <Route path="/users/research" element={<Research />} /> {/* Research */}
       </Routes>
         {location.pathname !== "/users/login" && <Footer />}
+        <DragBackbtn/>
     </div>
   );
 }

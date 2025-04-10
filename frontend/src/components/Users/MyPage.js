@@ -29,10 +29,10 @@ function Mypage() {
         fetch(`http://localhost:5000/api/users/${userPkId}`)
           .then((res) => res.json())
           .then((user) => setUserInfo(user))
-          .catch((error) => console.error('사용자 정보 불러오기 실패:', error));
+          .catch((error) => console.error('⛔Mypage.js 사용자 정보 불러오기 실패:', error));
       }      
     })
-    .catch((error) => console.error('로그인 상태 확인 오류:', error));
+    .catch((error) => console.error('⛔Mypage.js 로그인 상태 확인 오류:', error));
   }, [navigate]);
 
   if (!userInfo) {
@@ -69,7 +69,7 @@ function Mypage() {
     } 
 
   }
-
+  
   return (
     <div className='container_mypage_box'>
       <div className='mypage_box' id='mypage_margin_special'>
