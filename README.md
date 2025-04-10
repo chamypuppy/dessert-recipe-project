@@ -79,7 +79,7 @@
 <br/><br/>
 
 ### detail page1
-<img src="[https://github.com/chamypuppy/dessert-recipe-project/issues/2#issue-2916288049](https://private-user-images.githubusercontent.com/91423376/422249699-7a934fd9-802a-48cb-b806-021704b826c2.gif?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3NDQyNzU4MjMsIm5iZiI6MTc0NDI3NTUyMywicGF0aCI6Ii85MTQyMzM3Ni80MjIyNDk2OTktN2E5MzRmZDktODAyYS00OGNiLWI4MDYtMDIxNzA0YjgyNmMyLmdpZj9YLUFtei1BbGdvcml0aG09QVdTNC1ITUFDLVNIQTI1NiZYLUFtei1DcmVkZW50aWFsPUFLSUFWQ09EWUxTQTUzUFFLNFpBJTJGMjAyNTA0MTAlMkZ1cy1lYXN0LTElMkZzMyUyRmF3czRfcmVxdWVzdCZYLUFtei1EYXRlPTIwMjUwNDEwVDA4NTg0M1omWC1BbXotRXhwaXJlcz0zMDAmWC1BbXotU2lnbmF0dXJlPTJmNTkwMzllM2E0MjI0ZjU5OTM3ZWVjNzY5NGFhZmEyZjA4YzcxYzE4ZTZiM2Y1NjQ4ZTdiZjc2YzY2OWNiY2ImWC1BbXotU2lnbmVkSGVhZGVycz1ob3N0In0.QgYEfLYuqP_2f8j4TGy1hRAiFDhdo8OBabjJqkl72lw)" width="500"/>
+<img src="https://github.com/user-attachments/assets/44774d79-9c65-4eb7-86c4-58be4bdfb519" width="500"/>
 <br/><br/>
 
 ### detail page2
