@@ -47,4 +47,4 @@ bfg-report/
 
 
 # == front) img 제외 ==
-/public/imgs/convert_before_img
+/frontend/public/imgs/convert_before_img
