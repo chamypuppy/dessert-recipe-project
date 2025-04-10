@@ -62,7 +62,31 @@
 
 회고 및 트러블슈팅
 --
-https://chamypuppy.tistory.com/category/%EB%A6%AC%EC%95%A1%ED%8A%B8%EB%A1%9C%20%EC%9B%B9%20%EA%B0%9C%EB%B0%9C%20A%20to%20Z
+<a href="https://chamypuppy.tistory.com/category/%EB%A6%AC%EC%95%A1%ED%8A%B8%EB%A1%9C%20%EC%9B%B9%20%EA%B0%9C%EB%B0%9C%20A%20to%20Z" target="_blank">🔗티스토리</a>
 
 <br/><br/>
-개발 단계
+<br/>
+
+개발 현황
+--
+
+### login
+<img src="https://private-user-images.githubusercontent.com/91423376/422253218-ad87cff6-f2e2-41a3-8516-241468f6a739.gif?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3NDE4NTU2MTMsIm5iZiI6MTc0MTg1NTMxMywicGF0aCI6Ii85MTQyMzM3Ni80MjIyNTMyMTgtYWQ4N2NmZjYtZjJlMi00MWEzLTg1MTYtMjQxNDY4ZjZhNzM5LmdpZj9YLUFtei1BbGdvcml0aG09QVdTNC1ITUFDLVNIQTI1NiZYLUFtei1DcmVkZW50aWFsPUFLSUFWQ09EWUxTQTUzUFFLNFpBJTJGMjAyNTAzMTMlMkZ1cy1lYXN0LTElMkZzMyUyRmF3czRfcmVxdWVzdCZYLUFtei1EYXRlPTIwMjUwMzEzVDA4NDE1M1omWC1BbXotRXhwaXJlcz0zMDAmWC1BbXotU2lnbmF0dXJlPTNiOGI0NGJiMGY4MzBiYTEzM2JjNGM5YzM3NzlhMDM2NmVmNTllNGRlOTQ3ZGNhOWU3YWI5NzA5YzViYzc2MzUmWC1BbXotU2lnbmVkSGVhZGVycz1ob3N0In0.Df3PrfqYHjzOaWc7-yB93aSsW5e_zuQ7Vx9Arc5SXsg" width="500"/>
+<br/><br/>
+
+### logout
+<img src="https://github.com/user-attachments/assets/7ff62a95-09aa-4490-bf30-01093a6f786c" width="500"/>
+<br/><br/>
+
+### detail page1
+<img src="https://github-production-user-asset-6210df.s3.amazonaws.com/91423376/422249699-7a934fd9-802a-48cb-b806-021704b826c2.gif?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAVCODYLSA53PQK4ZA%2F20250313%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20250313T083406Z&X-Amz-Expires=300&X-Amz-Signature=5402c795bf9d8010870ad7eb150af7683b029e805a39c9b010c44e788ca94022&X-Amz-SignedHeaders=host" width="500"/>
+<br/><br/>
+
+### detail page2
+<img src="https://github.com/user-attachments/assets/fbd58a79-5f78-4514-b5a0-8a68d9be2bb8" width="500"/>
+<br/><br/>
+
+```
+💬 업로드 용량 문제로 인해 gif 압축이 진행되어 화면 전환과 화면의 일부가 매끄럽지 못할 수 있습니다.
+양해 부탁드리겠습니다.
+```
