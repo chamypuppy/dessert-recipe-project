@@ -41,8 +41,9 @@
 <br/>
 
 ### 사용 기술
-```front: bootstrap```
+```front: react bootstrap, figma```
 ```back: node.js, express```
+```Users sign-in: KAKAO API```
 
 <br/><br/>
 
