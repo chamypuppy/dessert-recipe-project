@@ -4,6 +4,12 @@
 
 <br/>
 
+포트폴리오 PDF
+---
+<a href="https://drive.google.com/file/d/1mt_w2OjLgJWIr2omO92Xrg0zcptf14-k/view?usp=sharing" target="_blank">🔗디저트 레시피 프로젝트 PDF</a>
+
+<br/>
+
 프로젝트 소개
 --
 ### 개발 목표
