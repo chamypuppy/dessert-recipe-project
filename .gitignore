@@ -39,6 +39,8 @@ backend/db/dessert-recipe-project-DB설계.sql
 backend/db/dessert-recipe-sql문.sql
 backend/db/dessert-users-sql문.sql
 backend/db/users-sql문.sql
+backend/db/
+backend/db/*.sql
 
 # === BFG 관련 제외 ===
 bfg-report/

@@ -14,8 +14,10 @@ import Login from './components/Users/Login';
 import MyPage from './components/Users/MyPage';
 import Research from './components/Users/Research';
 import { Footer } from './components/Main/Footer';
-import { DragBackbtn } from './components/Main/DragBackbtn';
+import { DragBackButton } from './components/Main/DragBackButton';
 import { DragHomebtn } from './components/Main/DragHomebtn';
+import { PlusButton } from './components/Main/PlusButton';
+import AddRecipeForm from './components/RecipeCRUD/AddRecipeForm';
 
 
 
@@ -50,9 +52,11 @@ function App() {
         <Route path="/users/login" element={<Login />} /> {/* Login */}
         <Route path="/users/mypage" element={<MyPage />} /> {/* MyPage */}
         <Route path="/users/research" element={<Research />} /> {/* Research */}
+        <Route path="/recipe/add" element={<AddRecipeForm />} /> {/* AddRecipeForm */}
       </Routes>
         {location.pathname !== "/users/login" && <Footer />}
-        <DragBackbtn/>
+        <DragBackButton/>
+        <PlusButton />
     </div>
   );
 }

@@ -177,7 +177,7 @@ app.get('/api/recipe_method', (req, res) => {
 
 
 // 레시피 추가하기
-app.post('/api/add_recipe', (req, res) => {
+app.post('/api/recipe/add', (req, res) => {
   const { recipe_name, recipe_intro, recipe_servings, baking_level } = req.body;
   const query = `INSERT INTO recipe (
     recipe_name, recipe_intro, recipe_image, recipe_servings, 

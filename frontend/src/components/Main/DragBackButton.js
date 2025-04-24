@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 
-export const DragBackbtn = () => {
+export const DragBackButton = () => {
   const navigate = useNavigate();
   
   // 🔹 localStorage에서 위치 불러오기 (없으면 기본값)
