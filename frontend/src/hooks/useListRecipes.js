@@ -9,7 +9,7 @@ const useListRecipes = () => {
   useEffect(() => {
     const listRecipes = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/recipes'); // db 주소 제대로 쓰기
+        const response = await axios.get(`${REACT_APP_CLOUDTYPE_BACKEND_URL}/api/recipes`); // db 주소 제대로 쓰기
         console.log(response.data);
         setRecipes(response.data); // 레시피 데이터 저장
       } catch (err) {

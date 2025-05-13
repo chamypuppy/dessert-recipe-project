@@ -11,7 +11,7 @@ export default function useFetchRecipes() {
   useEffect(() => {
     const fetchRecipes = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/recipe_method');
+        const response = await axios.get(`${REACT_APP_CLOUDTYPE_BACKEND_URL}/api/recipe_method`);
         console.log("받은 API DATA확인: ", response.data);
         setRecipes(response.data.recipeResult || []);
         setRecipeMethods(response.data.recipeMethodResult || []);
