@@ -48,6 +48,7 @@
 - 세션과 쿠키 사용
 - 로컬 MySQL Workbench와 cloudtype 연결 & 배포하기 (✔ 25.04.25 배포 성공)
 - 깃허브 backend 서버와 cloudtype 연결하기 (✔ 25.04.25 연결 성공)
+- 깃허브 서브 디렉토리 frontend 폴더와 cloudtype 연결하기 (✔ 25.05.09 연결 성공)
 
 <br/>
 
@@ -114,5 +115,9 @@
 레시피 API 엔드포인트 주소들은 추후에 교체 예정
 <br/><br/>
 
-### 배포 관련 회고
+### front
+연결 완료✔<br/>
+Home 컴포, hooks 파일 API 주소 호스팅 플랫폼 주소로 변경 중
+<br/><br/>
+### 배포 관련 회고 및 성공
 <a href="https://chamypuppy.tistory.com/135" target="_blank">🔗티스토리</a>
