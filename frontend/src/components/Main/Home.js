@@ -19,7 +19,7 @@ function Home ({ recipes }) {
   
   useEffect(() => {
     // 서버에서 세션에 저장된 userPkId 값 가져오기
-    fetch('http://localhost:5000/api/users/session', {
+    fetch(`${REACT_APP_CLOUDTYPE_BACKEND_URL}/api/users/session`, {
       method: 'GET',
       credentials: 'include', // 세션 쿠키 포함 (CORS 설정에 따라 필요)
     })

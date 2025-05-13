@@ -30,7 +30,7 @@ app.use(session({
 /* 5. CORS 미들웨어 설정 */
 //app.use(cors());
 app.use(cors({
-  origin: 'http://localhost:3000',
+  origin: process.env.CLOUDTYPE_FRONTEND_URL,
   credentials: true, // 인증 정보 허용 = 요청에 쿠키 포함
 }));
 
@@ -362,7 +362,7 @@ app.get('/auth/kakao/login/callback', async (req, res) => {
         console.log("req.session.userPkId: ", req.session.userPkId);
     
         // 4. 기존 유저 -> Home.js로 이동
-        res.redirect('http://localhost:3000/');
+        res.redirect(`${CLOUDTYPE_FRONTEND_URL}/`);
       } else {
         // 5. 신규 유저 (사용자 정보 입력 페이지로 이동)
         const queryInsertUser = users_img
@@ -382,7 +382,7 @@ app.get('/auth/kakao/login/callback', async (req, res) => {
           req.session.userPkId = results.insertId;  // 새로 추가된 사용자의 user_pk_id 값
 
           // 신규 유저 -> research 페이지로 이동
-          res.redirect('http://localhost:3000/users/research');
+          res.redirect(`${CLOUDTYPE_FRONTEND_URL}/users/research`);
         });
       }
     });
