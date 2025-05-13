@@ -11,7 +11,7 @@ function Mypage() {
 
   useEffect(() => {
     // 세션에 있는 userPkId를 사용해 사용자 정보를 가져오기
-    fetch('http://localhost:5000/api/users/session', {
+    fetch(`${process.env.REACT_APP_CLOUDTYPE_BACKEND_URL}/api/users/session`, {
       method: 'GET',
       credentials: 'include',
       withCredentials: true,
@@ -26,7 +26,7 @@ function Mypage() {
         /* return; */
       } else {
         // 사용자 정보를 서버에서 가져오기
-        fetch(`http://localhost:5000/api/users/${userPkId}`)
+        fetch(`${process.env.REACT_APP_CLOUDTYPE_BACKEND_URL}/api/users/${userPkId}`)
           .then((res) => res.json())
           .then((user) => setUserInfo(user))
           .catch((error) => console.error('⛔Mypage.js 사용자 정보 불러오기 실패:', error));
@@ -50,7 +50,7 @@ function Mypage() {
     //const accessToken = localStorage.getItem('kakao_access_token', accessToken);
 
     try {
-      const response = await fetch('http://localhost:5000/api/users/logout', {
+      const response = await fetch(`${process.env.REACT_APP_CLOUDTYPE_BACKEND_URL}/api/users/logout`, {
           method: 'POST',  
           credentials: 'include',
       });

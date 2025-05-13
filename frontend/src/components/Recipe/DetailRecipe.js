@@ -19,7 +19,7 @@ function DetailRecipe({ recipes, recipeMethods }) {
   useEffect(() => {
     const fetchUsersInfo = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/api/users_info/${recipe_pk_id}`);
+        const response = await axios.get(`${process.env.REACT_APP_CLOUDTYPE_BACKEND_URL}/api/users_info/${recipe_pk_id}`);
         setUsersInfo({
           users_name: response.data.users_name,
           users_intro: response.data.users_intro

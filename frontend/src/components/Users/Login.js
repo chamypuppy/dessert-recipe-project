@@ -5,13 +5,13 @@ const Login = () => {
 
   // 카카오 로그인 버튼 클릭 시 백엔드 서버의 로그인 엔드포인트로 이동
   const btnKakaoLogin = () => {
-    window.location.href = 'http://localhost:5000/auth/kakao/login'; // 백엔드로 리다이렉트
+    window.location.href = `${process.env.REACT_APP_CLOUDTYPE_BACKEND_URL}/auth/kakao/login`; // 백엔드로 리다이렉트
   };
 
    // 로그인 후 사용자 정보 받기
   const fetchUserInfo = async () => {
     try {
-      const response = await fetch('http://localhost:5000/auth/kakao/request/redirect_uri', {
+      const response = await fetch(`${process.env.REACT_APP_CLOUDTYPE_BACKEND_URL}/auth/kakao/request/redirect_uri`, {
         method: 'GET',
         credentials: 'include', // 쿠키 기반 인증을 사용할 경우
       });
