@@ -1,6 +1,8 @@
 /* 1. 환경 변수 설정 */
 require('dotenv').config({ path: '../.env' }); // 루트 디렉토리의 .env 파일 로드
 
+console.log('front ORIGIN:', process.env.CLOUDTYPE_FRONTEND_URL);
+
 /* 2. 필요 모듈 불러오기 */
 const express = require('express');
 const cors = require('cors');
