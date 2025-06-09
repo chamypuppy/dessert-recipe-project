@@ -101,8 +101,10 @@
 
 배포하기
 --
-```DB, back, front``` 모두 ```dessert-recipe-project``` 레포지토리를 통해 clouytype에 코드 배포 완료<br/>
-내부 CORS 설정과 server 내 API 연결 최적화 시도 중 (6월~)<br/>
+- ```DB, back, front``` 모두 ```dessert-recipe-project``` 레포지토리를 통해 clouytype에 코드 배포 완료<br/>
+- 내부 CORS 설정과 server 내 API 연결 최적화 시도 중 (6월~. ✔ 25.06.09 SESSION_SECRET 변수 등록으로 일부 설정 해결 완료)<br/>
+- 디저트 레시피 프로젝트 배포 ```서비스``` 일부 첫 성공 (✔ 25.06.09) : Home-Detail Recipe 컴포넌트 데이터가 잘 보입니다.
+- 카카오 로그인 (KOE101) 에러 검토 예정<br/>
 <br/><br/>
 
 ### 배포 현황
