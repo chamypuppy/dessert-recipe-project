@@ -391,7 +391,11 @@ app.get('/auth/kakao/login/callback', async (req, res) => {
 
   } catch (error) {
     console.error('💦카카오 로그인에 실패하였습니다!: \n', error);
-    res.status(500).json({ message: '카카오 로그인 실패(Login failed)', error: error.message });
+    //res.status(500).json({ message: '카카오 로그인 실패(Login failed)', error: error.message });
+
+    
+    // 로그인 실패시 리다이렉트 재시도(인가 코드 새로발급)
+    return res.redirect('/auth/kakao/login'); 
   }
 });
 
