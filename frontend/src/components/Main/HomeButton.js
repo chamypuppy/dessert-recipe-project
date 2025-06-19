@@ -2,56 +2,24 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faHouse } from '@fortawesome/free-solid-svg-icons';
 
-export const PlusButton = () => {
+export const HomeButton = () => {
   const navigate = useNavigate();
   const [userPkId, setUserPkId] = useState(null);
   const [show, setShow] = useState(false);
 
-  useEffect(() => {
-    fetch(`${process.env.REACT_APP_CLOUDTYPE_BACKEND_URL}/api/users/session`, {
-      method: 'GET',
-      credentials: 'include',
-    })
-      .then(res => res.json())
-      .then(data => {
-        setUserPkId(data.userPkId || null);
-      })
-      .catch(err => {
-        console.error('세션 확인 실패:', err);
-      });
-  }, []);
+  const clickHomeBtn = () => navigate('/');
 
-  const handlePlusClick = () => setShow(!show);
-  const handleClose = () => setShow(false);
-
-  const goToInsertRecipe = () => {
-    if (userPkId) navigate('/recipe/add');
-    else {
-      alert('로그인이 필요합니다!');
-      navigate('/users/login');
-    }
-    handleClose();
-  };
-
-  const goToScrapRecipe = () => {
-    if (userPkId) navigate('/scraps');
-    else {
-      alert('로그인이 필요합니다!');
-      navigate('/users/login');
-    }
-    handleClose();
-  };
 
   return (
     <>
       {/* + 버튼 */}
       <Button
-        onClick={handlePlusClick}
+        onClick={clickHomeBtn}
         style={{
           position: 'fixed',
-          bottom: '30px',
+          bottom: '105px',
           right: 'calc(50% - 300px + 20px)', // max-width: 600px 안쪽 정렬
           width: '60px',
           height: '60px',
@@ -65,7 +33,7 @@ export const PlusButton = () => {
           transition: 'all 0.3s ease',
         }}
       >
-        <FontAwesomeIcon icon={faPlus} />
+        <FontAwesomeIcon icon={faHouse} />
       </Button>
 
       {/* 모달 박스 (작은 메뉴창) */}
@@ -80,20 +48,12 @@ export const PlusButton = () => {
             backgroundColor: 'white',
             border: '1px solid #ccc',
             borderRadius: '15px',
-            zIndex: 9999,
+            zIndex: 999,
             boxShadow: '0 6px 12px rgba(0,0,0,0.15)',
             animation: 'fadeInUp 0.3s ease forwards',
           }}
         >
-          <p style={{ marginBottom: '10px', fontWeight: 'bold' }}>무엇을 하시겠어요?</p>
-          <div className="d-grid gap-2">
-            <Button variant="danger" size="sm" onClick={goToInsertRecipe}>
-              레시피 작성하기
-            </Button>
-            <Button variant="secondary" size="sm" onClick={goToScrapRecipe}>
-              스크랩 레시피 확인
-            </Button>
-          </div>
+
         </div>
       )}
 

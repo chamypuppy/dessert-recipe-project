@@ -5,10 +5,12 @@ import { BrowserRouter as Router, Routes, Route , useLocation } from 'react-rout
 
 /* hooks */
 import useFetchRecipes from './hooks/useFetchRecipes';
-import useListRecipes from './hooks/useListRecipes';
+//import useListRecipes from './hooks/useListRecipes';
 
 /* components */
-import Home from './components/Main/Home';
+//import Home from './components/Main/Home';
+import Home from './pages/Home';
+import Search from './pages/Search';
 import DetailRecipe from './components/Recipe/DetailRecipe';
 import Login from './components/Users/Login';
 import MyPage from './components/Users/MyPage';
@@ -18,7 +20,7 @@ import { DragBackButton } from './components/Main/DragBackButton';
 import { DragHomebtn } from './components/Main/DragHomebtn';
 import { PlusButton } from './components/Main/PlusButton';
 import AddRecipeForm from './components/RecipeCRUD/AddRecipeForm';
-
+import { HomeButton } from './components/Main/HomeButton';
 
 
 function App() {
@@ -32,14 +34,14 @@ function App() {
           error: fetchError
         } = useFetchRecipes();
 
-  const { recipes: listRecipe, 
+  /* const { recipes: listRecipe, 
           isLoading: listRecipeLoading, 
           error: listError
-        } = useListRecipes();
+        } = useListRecipes(); */
 
   // 로딩 및 에러 상태를 통합 처리
-  const isLoading = fetchRecipeLoading || listRecipeLoading;
-  const error = fetchError || listError;
+  const isLoading = fetchRecipeLoading /* || listRecipeLoading */;
+  const error = fetchError /* || listError */;
 
   if (isLoading) return <p>로딩 중...</p>;
   if (error) return <p>오류 발생: {error}</p>;
@@ -47,15 +49,20 @@ function App() {
   return (
     <div className="container">
       <Routes>
-        <Route path="/" element={<Home recipes={listRecipe}/>}/> {/* Home */}
+        <Route path="/" element={<Home />}/> {/* Home */}
+        <Route path="/recipe/search" element={<Search /* recipes={listRecipe} *//>} />
         <Route path="/recipe/:recipe_pk_id" element={<DetailRecipe recipes={fetchRecipe} recipeMethods={recipeMethods} />} /> {/* DetailRecipe */}
         <Route path="/users/login" element={<Login />} /> {/* Login */}
         <Route path="/users/mypage" element={<MyPage />} /> {/* MyPage */}
         <Route path="/users/research" element={<Research />} /> {/* Research */}
         <Route path="/recipe/add" element={<AddRecipeForm />} /> {/* AddRecipeForm */}
+
+        {/* <Route path="/" element={<Home recipes={listRecipe}/>}/> */}
+        
       </Routes>
         {location.pathname !== "/users/login" && <Footer />}
         <DragBackButton/>
+        <HomeButton />
         <PlusButton />
     </div>
   );

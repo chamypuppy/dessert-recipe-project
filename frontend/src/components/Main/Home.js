@@ -16,7 +16,9 @@ function Home ({ recipes }) {
 
   const navigate = useNavigate(); // useNavigate 훅 초기화
   const [userPkId, setUserPkId] = useState(null);
-  
+  //let keyword = '';
+  const [keyword, setKeyword] = useState(''); 
+
   useEffect(() => {
     // 서버에서 세션에 저장된 userPkId 값 가져오기
     fetch(`${process.env.REACT_APP_CLOUDTYPE_BACKEND_URL}/api/users/session`, {
@@ -28,7 +30,14 @@ function Home ({ recipes }) {
     .catch((error) => console.error('로그인 상태 확인 오류:', error));
   }, []);
 
-  
+  /* 검색 기능 */
+    const clickIconSearch = () => {
+      //e.preventDefault();
+      if(keyword) navigate(`/recipe/search?keyword=${encodeURIComponent(keyword)}`);
+      else alert('검색어를 입력해주세요!');
+      
+      console.log(keyword);
+    }; 
 
   /* 로그인 기능 관련 식 */
     const clickIconUser = () => {
@@ -105,8 +114,9 @@ function Home ({ recipes }) {
             <Form.Control
               aria-label="Default"
               aria-describedby="inputGroup-sizing-default"
+              onChange={(e) => setKeyword(e.target.value)}
             />
-            <Button>
+            <Button onClick={() => clickIconSearch()}>
               <FontAwesomeIcon icon={faMagnifyingGlass} />
             </Button>
             <Button>

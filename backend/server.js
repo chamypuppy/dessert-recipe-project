@@ -49,11 +49,6 @@ db.connect(err => {
   }
 });
 
-// 서버 시작
-app.listen(port, () => {
-  console.log(`서버가 http://localhost:${port}에서 실행 중입니다.`);
-});
-
 
 /* 레시피 목록 불러오기 */
 /*
@@ -84,7 +79,7 @@ app.get('/api/recipes', (req, res) => {
   `;
 
   db.query(query, (err, results) => {
-    if (err) {
+    if(err) {
       console.error('💦recipes API의 DB 쿼리에 에러가 발생했습니다!: \n', err);
       res.status(500).send('recipes API 오류');
     } else {
@@ -176,6 +171,33 @@ app.get('/api/recipe_method', (req, res) => {
     });
   });
 });
+
+/* 레시피 검색 기능 */
+app.get('/api/recipes/search', (req, res) => {
+  const keyword = req.query.keyword;
+  const query = `SELECT 
+        r.recipe_pk_id,
+        r.recipe_name, 
+        r.recipe_image,
+        r.scrap_count, 
+        u.users_name AS author_name
+      FROM recipe r
+      LEFT JOIN users u ON r.author_id = u.users_pk_id
+      WHERE recipe_name LIKE ?;`
+
+  const param = `%${keyword}%`;
+
+  db.query(query, [param], (err, results) => {
+    if(err) {
+      console.error('💦recipe search API의 DB query에 에러가 발생했습니다!: \n', err);
+      res.status(500).send('recipes search API 오류');
+    } else {
+      res.json(results);
+      console.log('받은 API 확인:', results);
+      console.log('받은 req.query:', JSON.stringify(req.query));
+    }
+  })
+})
 
 
 // 레시피 추가하기
@@ -289,6 +311,7 @@ app.get('/auth/kakao/login', (req, res) => {
 
 // 카카오 Redirect 처리
 app.get('/auth/kakao/login/callback', async (req, res) => {
+
   const authCode = req.query.code; // 카카오가 보내준 인증 코드
   try {
 
@@ -320,6 +343,7 @@ app.get('/auth/kakao/login/callback', async (req, res) => {
 
     /* res.json({ access_token }); */
     console.log('Access Token:', access_token); // 액세스 토큰이 제대로 나오는지 확인
+    
 
     // 5. Access Token으로 사용자 정보 요청
     const userInfoResponse = await axios.get('https://kapi.kakao.com/v2/user/me', {
@@ -364,7 +388,7 @@ app.get('/auth/kakao/login/callback', async (req, res) => {
         console.log("req.session.userPkId: ", req.session.userPkId);
     
         // 4. 기존 유저 -> Home.js로 이동
-        res.redirect(`${CLOUDTYPE_FRONTEND_URL}/`);
+        res.redirect(`${process.env.CLOUDTYPE_FRONTEND_URL}/`);
       } else {
         // 5. 신규 유저 (사용자 정보 입력 페이지로 이동)
         const queryInsertUser = users_img
@@ -384,7 +408,7 @@ app.get('/auth/kakao/login/callback', async (req, res) => {
           req.session.userPkId = results.insertId;  // 새로 추가된 사용자의 user_pk_id 값
 
           // 신규 유저 -> research 페이지로 이동
-          res.redirect(`${CLOUDTYPE_FRONTEND_URL}/users/research`);
+          res.redirect(`${process.env.CLOUDTYPE_FRONTEND_URL}/users/research`);
         });
       }
     });
@@ -461,5 +485,13 @@ app.get('/auth/kakao/login/callback', async (req, res) => {
     console.error('카카오 로그아웃 오류:\n', error.response?.data || error.message);
     return res.status(500).json({ message: '카카오 로그아웃 실패...' });
   }
+
+
   
+});
+
+
+  // 서버 시작
+app.listen(port, () => {
+  console.log(`서버가 http://localhost:${port}에서 실행 중입니다.`);
 });

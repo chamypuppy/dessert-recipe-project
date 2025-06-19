@@ -13,6 +13,8 @@ yarn-error.log*
 .env
 backend/.env
 frontend/.env
+root+cloudtype_env/
+root+cloudtype_env/.env
 
 # === 의존성 디렉토리 제외 ===
 node_modules/
