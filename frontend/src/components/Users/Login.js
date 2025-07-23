@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import Button from 'react-bootstrap/Button';
 
 const Login = () => {
   /* const [userInfo, setUserInfo] = useState(null); */
@@ -51,6 +53,12 @@ useEffect(() => {
   fetchUserInfo();
 }, []);
 
+function clickLoginSubmit(e) {
+  //useNavigate();
+  e.preventDefault();
+  
+}
+
 
    return (
     <div className='container_login_box'  id='all_container'>
@@ -67,6 +75,30 @@ useEffect(() => {
           alt="카카오 로그인 아이콘" />
         </button>
       </div>
+
+      <hr style={{margin: "50px 30px 80px 30px", color:"lightgray"}}/>
+
+      <form className='login_box basic_login_box' onSubmit={(e) => clickLoginSubmit(e)}>
+        <h2 style={{fontWeight: "bold", marginBottom: "30px", fontSize: "1.2rem"}}>일반 로그인</h2>
+        <div className='l_box bl_box'>
+          <input type='text' placeholder='아이디'/>
+          <input type='password' placeholder='비밀번호'/>
+        </div>
+        <div className="d-grid gap-2">
+          <Button variant="secondary" size="lg" type="submit" style={{backgroundColor: "var(--color-strawberry3)", border: "var(--color-drak--strawberry)"}}>
+            로그인
+          </Button>
+        </div>
+        
+        {/* <div class="input-group">
+          <input type="text" class="form-control" placeholder="아이디" aria-label="Username" aria-describedby="basic-addon1"/>
+        </div>
+        <div class="input-group">
+          <input type="password" class="form-control" placeholder="비밀번호" aria-label="Username" aria-describedby="basic-addon1"/>
+        </div> */}
+
+      </form>
+        <Link to='/users/signup'>회원가입</Link>
       {/* {userInfo && (
         <div>
           <h3>로그인한 사용자</h3>

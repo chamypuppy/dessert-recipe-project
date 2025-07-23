@@ -5,9 +5,11 @@ console.log('front ORIGIN:', process.env.CLOUDTYPE_FRONTEND_URL);
 
 /* 2. 필요 모듈 불러오기 */
 const express = require('express');
+const router = express.Router();
 const cors = require('cors');
-const mysql = require('mysql2');
-const dbConfig = require('./config/db.config');
+// const mysql = require('mysql2');
+// const dbConfig = require('./config/db.config');
+const db = require("../backend/config/db");
 const axios = require('axios');
 const session = require('express-session');
 
@@ -36,18 +38,7 @@ app.use(cors({
   credentials: true, // 인증 정보 허용 = 요청에 쿠키 포함
 }));
 
-/* 6. MySQL연결 설정 */
-const db = mysql.createConnection(dbConfig);
 
-// 6-1. MySQL 연결 확인
-db.connect(err => {
-  if (err) {
-    console.error('💦MySQL 연결에 실패하였습니다!: \n', err);
-    process.exit(1); // 연결 실패 시 프로세스 종료
-  } else {
-    console.log('MySQL에 연결되었습니다.');
-  }
-});
 
 
 /* 레시피 목록 불러오기 */
@@ -65,179 +56,7 @@ app.get('/api/recipe', (req, res) => {
 });
 */
 
-/* 레시피 목록 불러오기 */
-app.get('/api/recipes', (req, res) => {
-  const query = `
-    SELECT 
-      r.recipe_pk_id, 
-      r.recipe_name, 
-      r.recipe_image,
-      r.scrap_count, 
-      u.users_name AS author_name
-    FROM recipe r
-    LEFT JOIN users u ON r.author_id = u.users_pk_id;
-  `;
 
-  db.query(query, (err, results) => {
-    if(err) {
-      console.error('💦recipes API의 DB 쿼리에 에러가 발생했습니다!: \n', err);
-      res.status(500).send('recipes API 오류');
-    } else {
-      res.json(results);
-    }
-  });
-}); 
-
-/* DetailPage에 users_intro 가져오기 */
-app.get('/api/users_info/:recipePkId', (req, res) => {
-  const { recipePkId } = req.params;
-  const query = `
-    SELECT 
-    u.users_name,
-    u.users_intro
-    FROM recipe r
-    LEFT JOIN users u ON r.author_id = u.users_pk_id
-    WHERE r.recipe_pk_id = ?;
-  `;
-    db.query(query, [recipePkId], (err, results) => {
-
-      if(err) {
-        console.error('💦users_info API의 DB 쿼리에 에러가 발생했습니다!: \n', err);
-      res.status(500).send('users_info API 오류');
-      } else {
-        if(results.length > 0) {
-          res.json({ users_name: results[0].users_name, 
-                     users_intro: results[0].users_intro });
-        } else {
-          res.status(404).send('해당 레시피에 맞는 유저가 아닙니다.');
-        }
-      }
-
-    })
-    
-});
-
-/* 레시피 방법 불러오기 + recipe와 recipe_method 테이블의 공통된 recipe_pk_id랑 매칭되어야 함 */
-app.get('/api/recipe_method', (req, res) => {
-  const query = 
-  `
-  select r.*, m.* from recipe r
-  LEFT JOIN recipe_method m ON r.recipe_pk_id = m.recipe_pk_id;  
-  `;
-  db.query(query, (err, results) => {
-    if (err) {
-      console.error('💦recipe_method API 처리 시 에러가 발생하였습니다!: \n', err);
-      res.status(500).send('서버 오류');
-      return;
-    } 
-
-    const recipe_table_result = [];
-    const recipe_method_results = [];
-
-    results.forEach((row) => {
-      if (row.recipe_pk_id) {
-        const existingRecipe = recipe_table_result.find(r => r.recipe_pk_id === row.recipe_pk_id);
-        if (!existingRecipe) {
-          recipe_table_result.push({
-            recipe_pk_id: row.recipe_pk_id,
-            recipe_name: row.recipe_name,
-            recipe_intro: row.recipe_intro,
-            recipe_image: row.recipe_image,
-            recipe_servings: row.recipe_servings,
-            baking_level: row.baking_level,
-            tags: row.tags,
-            scrap_count: row.scrap_count,
-            ingredient1: row.ingredient1,
-            ingredient2: row.ingredient2,
-            author_id: row.author_id,
-            tips: row.tips,
-          });
-        }
-      }
-
-      if (row.method) {
-        recipe_method_results.push({
-          method_pk_id: row.method_pk_id,
-          recipe_pk_id: row.recipe_pk_id,
-          method: row.method,
-          method_number: row.method_number,
-        });
-      }
-    });
-
-    res.json({
-      recipeResult: recipe_table_result,
-      recipeMethodResult: recipe_method_results,
-    });
-  });
-});
-
-/* 레시피 검색 기능 */
-app.get('/api/recipes/search', (req, res) => {
-  const keyword = req.query.keyword;
-  const query = `SELECT 
-        r.recipe_pk_id,
-        r.recipe_name, 
-        r.recipe_image,
-        r.scrap_count, 
-        u.users_name AS author_name
-      FROM recipe r
-      LEFT JOIN users u ON r.author_id = u.users_pk_id
-      WHERE recipe_name LIKE ?;`
-
-  const param = `%${keyword}%`;
-
-  db.query(query, [param], (err, results) => {
-    if(err) {
-      console.error('💦recipe search API의 DB query에 에러가 발생했습니다!: \n', err);
-      res.status(500).send('recipes search API 오류');
-    } else {
-      res.json(results);
-      console.log('받은 API 확인:', results);
-      console.log('받은 req.query:', JSON.stringify(req.query));
-    }
-  })
-})
-
-
-// 레시피 추가하기
-app.post('/api/recipe/add', (req, res) => {
-  const { recipe_name, recipe_intro, recipe_servings, baking_level } = req.body;
-  const query = `INSERT INTO recipe (
-    recipe_name, recipe_intro, recipe_image, recipe_servings, 
-    baking_level, author_id, category_big, category_middle, 
-    category_machine, ingredient1, ingredient2, tips, tags
-  ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
-  db.query(query, [recipe_name, recipe_intro, recipe_image, recipe_servings, 
-    baking_level, author_id, category_big, category_middle, 
-    category_machine, ingredient1, ingredient2, tips, tags], (err, results) => {
-    if (err) {
-      console.error('💦add_recipe API 처리 시 에러가 발생하였습니다!: \n', err);
-      res.status(500).send('레시피 추가에 실패: add_recipe API 오류');
-    } else {
-      res.status(201).send('레시피가 추가되었습니다.');
-    }
-  });
-});
-
-// 스크랩된 레시피 가져오기 API
-app.get('/api/scraps/:user_id', (req, res) => {
-  const userId = req.params.user_id;
-  const query = `
-    SELECT r.recipe_pk_id, r.recipe_name, r.recipe_intro, r.recipe_image, s.scrap_date
-    FROM scraps s
-    JOIN recipe r ON s.scrap_recipe_id = r.recipe_pk_id
-    WHERE s.scrap_user_id = ?;
-  `;
-  db.query(query, [userId], (err, results) => {
-    if (err) {
-      console.error('💦 스크랩한 레시피 불러오는 API 작업에 오류가 발생하였습니다!: \n', err);
-      res.status(500).send('스크랩된 레시피 불러오기에 실패하였습니다: 서버 오류');
-    } else {
-      res.json(results);
-    }
-  });
-});
 
 
 /* 좋아요 API */
@@ -432,11 +251,11 @@ app.get('/auth/kakao/login/callback', async (req, res) => {
     }
   });
 
-  /* Mypage API: 나의 정보 불러오기 */
+  /* Mypage API: 나의 정보 불러오기 ✅*/
   app.get('/api/users/:userPkId', (req, res) => {
     const userPkId = req.params.userPkId;
   
-    const query = 'SELECT users_kakao_id, users_id, users_name, DATE_FORMAT(signup_date, "%Y-%m-%d %H:%i:%s") AS format_signup_date, users_img FROM users WHERE users_pk_id = ?';
+    const query = 'SELECT users_kakao_id, users_id, users_name, nickname, DATE_FORMAT(signup_date, "%Y-%m-%d %H:%i:%s") AS format_signup_date, users_img FROM users WHERE users_pk_id = ?';
     db.query(query, [userPkId], (err, results) => {
       if (err) {
         console.error('💦MyPage API 사용자 정보 조회 오류: \n', err);
@@ -485,11 +304,88 @@ app.get('/auth/kakao/login/callback', async (req, res) => {
     console.error('카카오 로그아웃 오류:\n', error.response?.data || error.message);
     return res.status(500).json({ message: '카카오 로그아웃 실패...' });
   }
-
-
-  
 });
 
+/* ✅ 레시피 검색 기능 */
+app.get('/api/recipes/search', (req, res) => {
+  const keyword = req.query.keyword;
+  const query = `SELECT 
+        r.recipe_pk_id,
+        r.recipe_name, 
+        r.recipe_image,
+        r.scrap_count, 
+        u.nickname AS author_name
+      FROM recipe r
+      LEFT JOIN users u ON r.author_id = u.users_pk_id
+      WHERE recipe_name LIKE ?;`
+
+  const param = `%${keyword}%`;
+
+  db.query(query, [param], (err, results) => {
+    if(err) {
+      console.error('💦recipe search API의 DB query에 에러가 발생했습니다!: \n', err);
+      res.status(500).send('recipes search API 오류');
+    } else {
+      res.json(results);
+      console.log('받은 API 확인:', results);
+      console.log('받은 req.query:', JSON.stringify(req.query));
+    }
+  })
+})
+
+// 스크랩된 레시피 가져오기 API
+app.get('/api/scraps/:user_id', (req, res) => {
+  const userId = req.params.user_id;
+  const query = `
+    SELECT r.recipe_pk_id, r.recipe_name, r.recipe_intro, r.recipe_image, s.scrap_date
+    FROM scraps s
+    JOIN recipe r ON s.scrap_recipe_id = r.recipe_pk_id
+    WHERE s.scrap_user_id = ?;
+  `;
+  db.query(query, [userId], (err, results) => {
+    if (err) {
+      console.error('💦 스크랩한 레시피 불러오는 API 작업에 오류가 발생하였습니다!: \n', err);
+      res.status(500).send('스크랩된 레시피 불러오기에 실패하였습니다: 서버 오류');
+    } else {
+      res.json(results);
+    }
+  });
+});
+
+/* ✅ DetailPage에 users_intro 가져오기 */
+app.get('/api/users_info/:recipePkId', (req, res) => {
+  const { recipePkId } = req.params;
+  const query = `
+    SELECT 
+    u.nickname,
+    u.users_intro
+    FROM recipe r
+    LEFT JOIN users u ON r.author_id = u.users_pk_id
+    WHERE r.recipe_pk_id = ?;
+  `;
+    db.query(query, [recipePkId], (err, results) => {
+
+      if(err) {
+        console.error('💦users_info API의 DB 쿼리에 에러가 발생했습니다!: \n', err);
+      res.status(500).send('users_info API 오류');
+      } else {
+        if(results.length > 0) {
+          res.json({ nickname: results[0].nickname,  // ✅
+                     users_intro: results[0].users_intro });
+        } else {
+          res.status(404).send('해당 레시피에 맞는 유저가 아닙니다.');
+        }
+      }
+
+    })
+    
+});
+
+app.use("/api/users", require("./routes/usersRoutes"));
+app.use("/api/recipes", require("./routes/recipesRoutes"));
+
+
+//app.use(router);
 
   // 서버 시작
 app.listen(port, () => {

@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Form, Button, Container, Row, Col, InputGroup, Badge } from 'react-bootstrap';
 import axios from 'axios';
 
-function AddRecipeForm() {
+export const AddRecipeForm = () => {
   const [title, setTitle] = useState('');
   const [image, setImage] = useState(null);
   const [preview, setPreview] = useState(null);
@@ -170,6 +170,3 @@ function AddRecipeForm() {
     </Container>
   );
 };
-
-
-export default AddRecipeForm;

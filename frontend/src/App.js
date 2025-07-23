@@ -11,6 +11,8 @@ import useFetchRecipes from './hooks/useFetchRecipes';
 //import Home from './components/Main/Home';
 import Home from './pages/Home';
 import Search from './pages/Search';
+import AddRecipe from './pages/AddRecipe';
+import Signup from './pages/Signup';
 import DetailRecipe from './components/Recipe/DetailRecipe';
 import Login from './components/Users/Login';
 import MyPage from './components/Users/MyPage';
@@ -19,7 +21,6 @@ import { Footer } from './components/Main/Footer';
 import { DragBackButton } from './components/Main/DragBackButton';
 import { DragHomebtn } from './components/Main/DragHomebtn';
 import { PlusButton } from './components/Main/PlusButton';
-import AddRecipeForm from './components/RecipeCRUD/AddRecipeForm';
 import { HomeButton } from './components/Main/HomeButton';
 
 
@@ -53,17 +54,25 @@ function App() {
         <Route path="/recipe/search" element={<Search /* recipes={listRecipe} *//>} />
         <Route path="/recipe/:recipe_pk_id" element={<DetailRecipe recipes={fetchRecipe} recipeMethods={recipeMethods} />} /> {/* DetailRecipe */}
         <Route path="/users/login" element={<Login />} /> {/* Login */}
+        <Route path="/users/signup" element={<Signup/>}/>
         <Route path="/users/mypage" element={<MyPage />} /> {/* MyPage */}
         <Route path="/users/research" element={<Research />} /> {/* Research */}
-        <Route path="/recipe/add" element={<AddRecipeForm />} /> {/* AddRecipeForm */}
+        <Route path="/recipe/add" element={<AddRecipe />} /> {/* AddRecipe */}
 
         {/* <Route path="/" element={<Home recipes={listRecipe}/>}/> */}
         
       </Routes>
         {location.pathname !== "/users/login" && <Footer />}
-        <DragBackButton/>
+        {location.pathname !== "/users/login" && location.pathname !== "/users/signup" && (
+          <>
+            {/* <HomeButton /> */}
+            <PlusButton />
+            <DragBackButton/>
+          </>
+        )}
         <HomeButton />
-        <PlusButton />
+        {/* <DragBackButton/> */}
+        
     </div>
   );
 }

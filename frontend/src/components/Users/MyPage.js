@@ -76,7 +76,7 @@ function Mypage() {
           <div className='mp_img_box'><img src={userInfo.users_img} className='mp_img'/></div>
           <div className='mp_box'>
             {/* <h2>내 정보</h2> */}
-            <p className='mp_name'><span style={{fontWeight: "600"}}>{userInfo.users_name}</span> 님
+            <p className='mp_name'><span style={{fontWeight: "600"}}>{userInfo.nickname}</span> 님
             </p>
             <p className='mp_hello'>오늘도 달콤한 베이킹 시간되세요!</p>
           </div>

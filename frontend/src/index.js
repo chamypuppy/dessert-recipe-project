@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom/client';
 /* css */
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.css';
-
+import 'react-datepicker/dist/react-datepicker.css';
 
 import App from './App';
 import reportWebVitals from './reportWebVitals';
