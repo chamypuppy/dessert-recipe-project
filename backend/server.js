@@ -9,7 +9,7 @@ const router = express.Router();
 const cors = require('cors');
 // const mysql = require('mysql2');
 // const dbConfig = require('./config/db.config');
-const db = require("../backend/config/db");
+const db = require("./config/db");
 const axios = require('axios');
 const session = require('express-session');
 
