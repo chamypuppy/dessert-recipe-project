@@ -4,6 +4,7 @@ import React, { useEffect, useState, useRef } from "react";
 import DatePicker from 'react-datepicker';
 import { ko } from 'date-fns/locale';
 import Button from 'react-bootstrap/Button';
+import axios from 'axios';
 
 function Signup () {
   const [formData, setFormData] = useState({
@@ -38,10 +39,10 @@ function Signup () {
     data.append("form_birthday", formData.form_birthday);
     data.append("form_email", formData.form_email);
     
-    try {
-      const res = await axios.post("https://localhost:5000/api/")
-    }
-    catch {}
+    // try {
+    //   const res = await axios.post("https://localhost:5000/api/");
+    // }
+    // catch {}
     
   }
 
