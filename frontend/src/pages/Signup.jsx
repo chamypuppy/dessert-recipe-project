@@ -21,7 +21,7 @@ function Signup () {
   const [savedEmailList, setSavedEmailList] = useState([]);
   const [pwd1, setPwd1] = useState("");
   const [pwd2, setPwd2] = useState("");
-  const [pwdCheck, setPwdCheck] = useState(true);
+  const [pwdCompare, setPwdCompare] = useState(false);
   const [pwdCheckText, setPwdCheckText] = useState("");
 
   //const formatDate = 'YYYY-MM-DD';
@@ -39,10 +39,12 @@ function Signup () {
     data.append("form_birthday", formData.form_birthday);
     data.append("form_email", formData.form_email);
     
-    // try {
-    //   const res = await axios.post("https://localhost:5000/api/");
-    // }
-    // catch {}
+    try {
+      await axios.post(`${process.env.REACT_APP_CLOUDTYPE_BACKEND_URL}/api/signup/register`);
+    }
+    catch {
+      console.error("⚠ 회원가입 오류: 다시시도 해 주세요.");
+    }
     
   }
 
@@ -90,18 +92,39 @@ function Signup () {
     </>
   ));
 
+  function onChangePwd(e) {
+    const { name, value } = e.target;
+    
+    if (name === "form_pwd1") setPwd1(value);
+    else if (name === "form_pwd2") setPwd2(value);
+
+    // 최신값을 즉시 반영(비동기로 인한 오류 처리)
+    const temporSavedPwd1 = (name === "form_pwd1") ? value : pwd1;
+    const temporSavedPwd2 = (name === "form_pwd2") ? value : pwd2;
+
+     if(temporSavedPwd1 && temporSavedPwd2) {
+      const isMatched = (temporSavedPwd1 === temporSavedPwd2); // 같으면 t, 다르면 f
+      setPwdCompare(isMatched); // t
+      setPwdCheckText(isMatched ? "일치해요😄" : "일치하지 않아요😔");
+     } else {
+      setPwdCompare(false);     // f
+      setPwdCheckText("");
+    }
+  }
 
   /* 비밀번호 실시간 일치 Check */
-  useEffect(() => {
-    setPwdCheck(pwd1 == pwd2);
+  // useEffect(() => {
+  //   console.log("pwd 변화");
+  //   if(pwd1 && pwd2) setPwdCheck(pwd1 === pwd2);
+  //   else setPwdCheck(false);
 
-    /* if(pwd2 && !pwdCheck) setPwdCheckText("비밀번호가 일치하지 않습니다");
-    else if(pwd2 && pwdCheck) setPwdCheckText("비밀번호가 일치합니다😄");
-    else if(!pwd2) setPwdCheckText(""); */
+  //   /* if(pwd2 && !pwdCheck) setPwdCheckText("비밀번호가 일치하지 않습니다");
+  //   else if(pwd2 && pwdCheck) setPwdCheckText("비밀번호가 일치합니다😄");
+  //   else if(!pwd2) setPwdCheckText(""); */
 
-    console.log(pwd1, pwd2);
+  //   console.log(pwd1, pwd2);
     
-  }, [pwd1, pwd2]);
+  // }, [pwd1, pwd2]);
 
   /* const ChangePwdCheck = () => {
     if(!isSamePwd) setPwdErrorText("비밀번호가 일치하지 않습니다");
@@ -150,24 +173,22 @@ function Signup () {
         <input type="password" class="form-control" placeholder="비밀번호" aria-label="비밀번호" aria-describedby="basic-addon1" 
         id="pwd" name="form_pwd1" required
         // onChange={(e) => setPwd1(e.target.value)}
-        onChange={onChangeForm}/>
+        onChange={(e)=>{
+          onChangeForm(e);
+          onChangePwd(e);
+        }}/>
       </div>
 
-      <label for="pwdcheck" class="form-label">* 비밀번호 확인</label>
-      <div style={{}}>{pwdCheckText}</div>
+      <label for="pwdcheck" class="form-label">* 비밀번호 확인</label> &nbsp;&nbsp;&nbsp;
+      <span style={{ "color": pwdCompare ? "blue" : "red" }}>{pwdCheckText}</span>
       <div class="input-group mb-3">
         <span class="input-group-text" id="basic-addon1">PWD</span>
         <input type="password" class="form-control" placeholder="비밀번호 확인" aria-label="비밀번호 확인" aria-describedby="basic-addon1" 
-        id="pwdcheck" name="form_pwd2" required 
-        // onChange={(e) => {
-        //   setPwd2(e.target.value);
-        //   setPwdCheckText (
-        //     pwdCheck
-        //     ? "비밀번호가 일치합니다😄"
-        //     : "비밀번호가 일치하지 않습니다."
-        //     );
-        //   }}
-        onChange={onChangeForm}
+        id="pwdcheck" name="form_pwd2" required
+        onChange={(e)=>{
+          onChangeForm(e);
+          onChangePwd(e);
+        }}
           />
       </div>
         
