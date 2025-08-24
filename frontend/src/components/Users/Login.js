@@ -7,7 +7,7 @@ const Login = () => {
 
   // 카카오 로그인 버튼 클릭 시 백엔드 서버의 로그인 엔드포인트로 이동
   const btnKakaoLogin = () => {
-    window.location.href = `${process.env.REACT_APP_CLOUDTYPE_BACKEND_URL}/auth/kakao/login`; // 백엔드로 리다이렉트
+    window.location.href = `${process.env.REACT_APP_CLOUDTYPE_BACKEND_URL}/api/kakao/login`; // 백엔드로 리다이렉트
   };
 
    // 로그인 후 사용자 정보 받기

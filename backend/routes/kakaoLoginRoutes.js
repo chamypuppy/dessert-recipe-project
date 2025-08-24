@@ -1,0 +1,110 @@
+const express = require("express");
+const router = express.Router();
+
+const axios = require('axios');
+const db = require("../config/db");
+
+/* env에서 카카오 REST API키와 Redirect URI 불러오기 */
+require('dotenv').config({ path: './backend/.env' });
+const REST_API_KEY = process.env.KAKAO_REST_API_KEY;
+const REDIRECT_URI = process.env.KAKAO_REDIRECT_URI;
+const CLIENT_SECRET = process.env.KAKAO_CLIENT_SECRET;
+
+let SESSION;
+
+
+router
+  .route('/login') // 카카오 로그인 요청
+  .get((req, res) => {
+    const moveKakaoLoginUrl = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&scope=profile_nickname`;
+    res.redirect(moveKakaoLoginUrl);
+  });
+
+router
+  .route("/login/getAuth/callback")
+  .get(async (req, res) => {
+    const get = req.query; 
+    const authCode = get.code;
+
+    //console.log("authCode:", req.query.code);
+
+    try {
+      if(!authCode) {
+        console.error("🟡 카카오 인증코드가 누락되었습니다.");
+        return res.status(401).send("🟡 카카오 인증코드 누락, 없음");
+      }
+
+      const giveMeToken = await axios.post('https://kauth.kakao.com/oauth/token', null, {
+          params: {
+          grant_type: 'authorization_code',
+          client_id: REST_API_KEY,
+          redirect_uri: REDIRECT_URI,
+          client_secret:CLIENT_SECRET,
+          code: authCode,
+        },
+      });
+
+      const { access_token: ACCESS_TOKEN } = giveMeToken.data;
+      if (!ACCESS_TOKEN) {
+        console.error("🟡 카카오 액세스 토큰이 누락되었습니다.");
+        return res.status(401).send("🟡 카카오 액세스 토큰 누락, 없음");
+      };
+
+      const giveMeUserInfo = await axios.get('https://kapi.kakao.com/v2/user/me', {
+        headers: {
+          Authorization: `Bearer ${ACCESS_TOKEN}`,
+        }
+      });
+
+      const userInfo = giveMeUserInfo.data;
+      const kakaoId = userInfo.id;
+      const nickname = userInfo?.kakao_account?.profile?.nickname || '사용자';
+      const email = userInfo?.kakao_account?.email || null;
+      const birthday = userInfo?.kakao_account?.birthday || null;
+      const users_img = userInfo.kakao_account.profile.profile_image_url || 'http://localhost:3000/imgs/default.png';
+
+      if(!nickname) {
+        console.error("🟡 카카오 닉네임 정보가 누락되었습니다.");
+        res.status(204).send("🟡 카카오 닉네임 누락, 없음");
+      };
+
+      const getUserInfo = 'SELECT * FROM users WHERE users_kakao_id = ?';
+      db.query(getUserInfo, [kakaoId], (err, results) => {
+        if(err) {
+          console.error("🟡 카카오 사용자 정보 불러오기에 에러 발생");
+          return res.status(500).send("🟡 카카오 getUserInfo 오류, 에러");
+        };
+
+        const DBsameData = 0;
+        if(results.length > DBsameData) {
+          SESSION = req.session;
+          SESSION.userPkId = results[0].users_pk_id;  // 세션에 값 저장
+          SESSION.ACCESS_TOKEN = ACCESS_TOKEN;
+
+          res.redirect(`${process.env.CLOUDTYPE_FRONTEND_URL}/`);
+        } else {
+          const newInsertUser = `INSERT INTO users(users_kakao_id, nickname) VALUES (?, ?)`;
+          db.query(newInsertUser, [kakaoId, nickname], (err, results) => {
+            if(err) {
+              console.error("🟡 카카오 신규 유저 가입 오류입니다.");
+              res.status(500).send("🟡 카카오 신규 유저 가입 오류");
+            }
+            console.log("☀ 카카오 신규 유저 가입 성공");
+            SESSION = req.session;
+            SESSION.userPkId = results.insertId;
+            res.redirect(`${process.env.CLOUDTYPE_FRONTEND_URL}/users/research`);
+
+          });
+        };
+      });
+
+    } catch (error) {
+      console.error("🟡 서버 오류: 카카오 로그인 또는 신규 가입에 실패하였습니다.");
+      res.status(500).send("🟡 kakaoLoginRoutes 서버 오류입니다.");
+      console.log("에러 메시지:", error.message);
+      console.log("에러 응답:", error.response?.data); 
+    }
+
+  });
+
+  module.exports = router;

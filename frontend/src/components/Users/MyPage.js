@@ -55,7 +55,7 @@ function Mypage() {
           credentials: 'include',
       });
 
-      const result = await response.json();
+      const result = await response.json(); // {message: "🔵 쿠키 삭제 성공!"}
       console.log('로그아웃 응답:', result);
 
       if (response.ok) {

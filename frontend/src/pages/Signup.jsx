@@ -40,7 +40,8 @@ function Signup () {
     data.append("form_email", formData.form_email);
     
     try {
-      await axios.post(`${process.env.REACT_APP_CLOUDTYPE_BACKEND_URL}/api/signup/register`);
+      await axios.post(`${process.env.REACT_APP_CLOUDTYPE_BACKEND_URL}/api/signup/register`, data);
+      alert("회원가입 ")
     }
     catch {
       console.error("⚠ 회원가입 오류: 다시시도 해 주세요.");
@@ -112,35 +113,11 @@ function Signup () {
     }
   }
 
-  /* 비밀번호 실시간 일치 Check */
-  // useEffect(() => {
-  //   console.log("pwd 변화");
-  //   if(pwd1 && pwd2) setPwdCheck(pwd1 === pwd2);
-  //   else setPwdCheck(false);
-
-  //   /* if(pwd2 && !pwdCheck) setPwdCheckText("비밀번호가 일치하지 않습니다");
-  //   else if(pwd2 && pwdCheck) setPwdCheckText("비밀번호가 일치합니다😄");
-  //   else if(!pwd2) setPwdCheckText(""); */
-
-  //   console.log(pwd1, pwd2);
-    
-  // }, [pwd1, pwd2]);
-
-  /* const ChangePwdCheck = () => {
-    if(!isSamePwd) setPwdErrorText("비밀번호가 일치하지 않습니다");
-    else setPwdErrorText("비밀번호가 일치합니다😄");
-  } */
-
 
   const recommEmailList = [
-    "@gmail.com",
-    "@naver.com",
-    "@daum.net",
-    "@hanmail.net",
-    "@yahoo.com",
-    "@outlook.com",
-    "@nate.com",
-    "@kakao.com"
+    "@gmail.com", "@naver.com", "@daum.net",
+    "@hanmail.net", "@yahoo.com", "@outlook.com",
+    "@nate.com", "@kakao.com"
   ];
 
   function savedInputEmail(emailInputValue) {
@@ -172,7 +149,6 @@ function Signup () {
         <span class="input-group-text" id="basic-addon1">PWD</span>
         <input type="password" class="form-control" placeholder="비밀번호" aria-label="비밀번호" aria-describedby="basic-addon1" 
         id="pwd" name="form_pwd1" required
-        // onChange={(e) => setPwd1(e.target.value)}
         onChange={(e)=>{
           onChangeForm(e);
           onChangePwd(e);
