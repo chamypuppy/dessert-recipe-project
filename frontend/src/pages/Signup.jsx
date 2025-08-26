@@ -7,13 +7,11 @@ import Button from 'react-bootstrap/Button';
 import axios from 'axios';
 
 function Signup () {
+  const today = new Date().toISOString().slice(0, 10);
+
   const [formData, setFormData] = useState({
-    form_id: "",
-    form_pwd1: "",
-    form_name: "",
-    form_tel: "",
-    form_birthday: "",
-    form_email: ""
+    form_id: "", form_pwd1: "", form_name: "",
+    form_tel: "", form_birthday: today, form_email: ""
   });
   
   const [date, setDate] = useState(new Date());
@@ -24,49 +22,48 @@ function Signup () {
   const [pwdCompare, setPwdCompare] = useState(false);
   const [pwdCheckText, setPwdCheckText] = useState("");
 
-  //const formatDate = 'YYYY-MM-DD';
-  //const [pwd, setPwd] = useState("");
-  //const originPwdRef = useRef();
-
   const onClickFormSubmit = async (e) => {
     e.preventDefault();
 
-    const data = new FormData();
+    /* const data = new FormData();
     data.append("form_id", formData.form_id);
     data.append("form_pwd1", formData.form_pwd1);
     data.append("form_name", formData.form_name);
     data.append("form_tel", formData.form_tel);
     data.append("form_birthday", formData.form_birthday);
-    data.append("form_email", formData.form_email);
+    data.append("form_email", formData.form_email); */
     
     try {
-      await axios.post(`${process.env.REACT_APP_CLOUDTYPE_BACKEND_URL}/api/signup/register`, data);
-      alert("회원가입 ")
+      const signupResult = await axios.post(`${process.env.REACT_APP_CLOUDTYPE_BACKEND_URL}/api/users/signup/register`, formData);
+
+      if(signupResult.data.success) alert(signupResult.data.message);
+      else alert("회원가입에 실패하였습니다😔 \n 다시 시도 해 주세요.");
     }
     catch {
-      console.error("⚠ 회원가입 오류: 다시시도 해 주세요.");
+      console.error("🟡 Signup.jsx 오류: 다시시도 해 주세요.");
+      
     }
     
-  }
+  };
 
-  const onChangeForm = (e) => {
-    const { name, value, date } = e.target; // 구조분해할당
-    //if(name === 'email') savedInputEmail(value);
+  const onChangeInput = (e) => {
+    const { name:formName, value:formValue } = e.target; // 구조분해할당
+    //console.log(e.target.name);
     
-    setFormData(target => {
-      const newData = {...target};
-      if(name == 'form_birthday') newData.form_birthday = date;
-      else newData[name] = value;
-      return newData;
-      //return console.log(newData);
-    }); // ({}): 객체 리턴을 위해
-  }
+    setFormData(liveFormData => ({
+        ...liveFormData,
+        [formName] : formValue
+    }))
+  };
+    
   console.log(formData);
 
-  function clickDate(e) {
-    const currentDate = e.target.value;
-    setDate(currentDate);
-  }
+  function onChangeDate (date) {
+    setFormData(liveFormData => ({
+        ...liveFormData,
+        ["form_birthday"] : date
+    }))
+  };
 
   function typingBirthday(e) {
     const dateStr = e.target.value;
@@ -94,14 +91,14 @@ function Signup () {
   ));
 
   function onChangePwd(e) {
-    const { name, value } = e.target;
+    const { name:inputName, value:inputValue } = e.target;
     
-    if (name === "form_pwd1") setPwd1(value);
-    else if (name === "form_pwd2") setPwd2(value);
+    if (inputName === "form_pwd1") setPwd1(inputValue);
+    else if (inputName === "form_pwd2") setPwd2(inputValue);
 
     // 최신값을 즉시 반영(비동기로 인한 오류 처리)
-    const temporSavedPwd1 = (name === "form_pwd1") ? value : pwd1;
-    const temporSavedPwd2 = (name === "form_pwd2") ? value : pwd2;
+    const temporSavedPwd1 = (inputName === "form_pwd1") ? inputValue : pwd1;
+    const temporSavedPwd2 = (inputName === "form_pwd2") ? inputValue : pwd2;
 
      if(temporSavedPwd1 && temporSavedPwd2) {
       const isMatched = (temporSavedPwd1 === temporSavedPwd2); // 같으면 t, 다르면 f
@@ -114,22 +111,30 @@ function Signup () {
   }
 
 
-  const recommEmailList = [
+  const recommDomainList = [
     "@gmail.com", "@naver.com", "@daum.net",
     "@hanmail.net", "@yahoo.com", "@outlook.com",
     "@nate.com", "@kakao.com"
   ];
 
-  function savedInputEmail(emailInputValue) {
-    console.log(emailInputValue);
-    setInputEmailValue(emailInputValue);
-    const userEmail = recommEmailList.map((email) => 
-      emailInputValue.includes("@")
-      ? emailInputValue.split("@")[0] + email
-      : emailInputValue + email
+  /* function savedInputEmail(emailId) {
+    setInputEmailValue(emailId);
+    const userEmail = recommDomainList.map((domainAddress) => 
+      emailId.includes("@")
+      ? emailId.split("@")[0] + domainAddress
+      : emailId + domainAddress
     );
     setSavedEmailList(userEmail);
-  }
+  }; */
+
+  function savedInputEmail(emailId) {
+    setInputEmailValue(emailId);
+    const userEmail = recommDomainList.map((domainAddress) => {
+      const pureId = emailId.split("@")[0];
+      return (emailId.includes("@")) ? pureId + domainAddress : emailId + domainAddress;
+    });
+    setSavedEmailList(userEmail);
+  };
 
   return(
     <form onSubmit={onClickFormSubmit} id="form_signup">
@@ -141,7 +146,7 @@ function Signup () {
         <span class="input-group-text" id="basic-addon1">ID</span>
         <input type="text" class="form-control" placeholder="아이디" aria-label="아이디" aria-describedby="basic-addon1" 
         id="id" name="form_id" required
-        onChange={onChangeForm}/>
+        onChange={onChangeInput}/>
       </div>
 
       <label label for="pwd" class="form-label">* 비밀번호</label>
@@ -150,7 +155,7 @@ function Signup () {
         <input type="password" class="form-control" placeholder="비밀번호" aria-label="비밀번호" aria-describedby="basic-addon1" 
         id="pwd" name="form_pwd1" required
         onChange={(e)=>{
-          onChangeForm(e);
+          onChangeInput(e);
           onChangePwd(e);
         }}/>
       </div>
@@ -162,7 +167,7 @@ function Signup () {
         <input type="password" class="form-control" placeholder="비밀번호 확인" aria-label="비밀번호 확인" aria-describedby="basic-addon1" 
         id="pwdcheck" name="form_pwd2" required
         onChange={(e)=>{
-          onChangeForm(e);
+          onChangeInput(e);
           onChangePwd(e);
         }}
           />
@@ -173,7 +178,7 @@ function Signup () {
         <span class="input-group-text" id="basic-addon1">Name</span>
         <input type="text" class="form-control" placeholder="이름" aria-label="이름" aria-describedby="basic-addon1" 
         id="name" name="form_name" required
-        onChange={onChangeForm}/>
+        onChange={onChangeInput}/>
       </div>
 
       <label for="tel" class="form-label">* 휴대전화</label>
@@ -181,13 +186,13 @@ function Signup () {
         <span class="input-group-text" id="basic-addon1">Tel</span>
         <input type="text" class="form-control" placeholder="전화번호" aria-label="휴대전화" aria-describedby="basic-addon1" 
         id="tel" name="form_tel" required
-        onChange={onChangeForm}/>
+        onChange={onChangeInput}/>
       </div>
 
       
 
       <DatePicker 
-        selected={date} 
+        selected={formData.form_birthday} 
         minDate={new Date(1900, 0, 1)}
         maxDate={new Date()}
         dateFormat="yyyy-MM-dd"
@@ -196,18 +201,11 @@ function Signup () {
         showMonthDropdown
         scrollableYearDropdown
         locale={ko}
-        // showYearPicker // 비활성화
+        onChange={(datePickerDateValue) => {
+          const prettyDate = datePickerDateValue.toISOString().slice(0, 10);
+          onChangeDate(prettyDate);
+        }}
 
-        // onChange={(selectDate)=>{
-        //   //console.log(selectDate);
-        //   setDate(selectDate);
-        // }}
-        // onKeyDown={(e) => {
-        //   console.log(e.target.value);
-          
-        // }}
-        onChange={(date) => setDate(date.toISOString().slice(0, 10))}
-        // onClick={console.log(date)}
         customInput={<CustomDateInput/>}
       />
       <br/>
@@ -223,7 +221,7 @@ function Signup () {
         // onChange={(e) => savedInputEmail(e.target.value)}
         onChange={(e) => {
           savedInputEmail(e.target.value);
-          onChangeForm(e);
+          onChangeInput(e);
         }} />
         <datalist id="emails">
           {savedEmailList != null 

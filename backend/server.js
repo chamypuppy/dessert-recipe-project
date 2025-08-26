@@ -220,6 +220,9 @@ app.get('/api/users_info/:recipePkId', (req, res) => {
     
 });
 
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
 app.use('/api/users/logout', require('./routes/logoutRoutes'));
 app.use("/api/users", require("./routes/usersRoutes"));
 app.use("/api/recipes", require("./routes/recipesRoutes"));
