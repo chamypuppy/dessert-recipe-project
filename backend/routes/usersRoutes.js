@@ -1,16 +1,27 @@
 const express = require("express");
 const router = express.Router();
 
+const bcrypt = require("bcrypt");
+
 const db = require("../config/db");
 
 router
   .route('/signup/register')
-  .post((req, res) => {
-    const { form_id, form_pwd1, form_name, form_tel, form_birthday, form_email } = req.body;
+  .post(async (req, res) => {
+    const { form_id, form_pwd1, form_pwd2, form_name, form_tel, form_birthday, form_email } = req.body;
 
-    const insertUserInfo = 'INSERT INTO users(users_id, users_pwd, users_name, email, birthday, tel) VALUES(?,?,?,?,?,?)';
+    if(form_pwd1 !== form_pwd2) {
+      return res.status(400).json({
+        success: false,
+        message: "비밀번호가 불일치합니다."
+      });
+    };
 
-    db.query(insertUserInfo, [form_id, form_pwd1, form_name, form_email, form_birthday, form_tel], (err, results) => {
+    const hashPwd = await bcrypt.hash(form_pwd1, 10);
+  
+    const insertUserInfo = 'INSERT INTO users(users_id, users_pwd, users_name, tel, birthday, email) VALUES(?,?,?,?,?,?)';
+
+    db.query(insertUserInfo, [form_id, hashPwd, form_name, form_tel, form_birthday, form_email], (err, results) => {
       if(err) {
         console.error("🟡 회원가입 중 에러가 발생했습니다.");
         console.error("🟡 응답 상태:", err.response?.status);

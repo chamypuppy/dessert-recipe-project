@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 //import { DayPicker } from "react-day-picker";
 //import 'react-day-picker/dist/style.css';
 import DatePicker from 'react-datepicker';
@@ -8,9 +9,10 @@ import axios from 'axios';
 
 function Signup () {
   const today = new Date().toISOString().slice(0, 10);
+  const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
-    form_id: "", form_pwd1: "", form_name: "",
+    form_id: "", form_pwd1: "", form_pwd2: "", form_name: "",
     form_tel: "", form_birthday: today, form_email: ""
   });
   
@@ -24,19 +26,14 @@ function Signup () {
 
   const onClickFormSubmit = async (e) => {
     e.preventDefault();
-
-    /* const data = new FormData();
-    data.append("form_id", formData.form_id);
-    data.append("form_pwd1", formData.form_pwd1);
-    data.append("form_name", formData.form_name);
-    data.append("form_tel", formData.form_tel);
-    data.append("form_birthday", formData.form_birthday);
-    data.append("form_email", formData.form_email); */
     
     try {
       const signupResult = await axios.post(`${process.env.REACT_APP_CLOUDTYPE_BACKEND_URL}/api/users/signup/register`, formData);
 
-      if(signupResult.data.success) alert(signupResult.data.message);
+      if(signupResult.data.success) {
+        alert(signupResult.data.message);
+        navigate("/users/research");
+      }
       else alert("회원가입에 실패하였습니다😔 \n 다시 시도 해 주세요.");
     }
     catch {
