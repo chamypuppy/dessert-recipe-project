@@ -71,7 +71,7 @@ router
       const getUserInfo = 'SELECT * FROM users WHERE users_kakao_id = ?';
       db.query(getUserInfo, [kakaoId], (err, results) => {
         if(err) {
-          console.error("🟡 카카오 사용자 정보 불러오기에 에러 발생");
+          console.error("🟡 카카오 로그인: users 테이블에서 사용자 정보 불러오기 에러");
           return res.status(500).send("🟡 카카오 getUserInfo 오류, 에러");
         };
 

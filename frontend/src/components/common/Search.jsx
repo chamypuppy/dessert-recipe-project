@@ -2,9 +2,9 @@ import { useState, useEffect } from 'react';
 import { useNavigate, useLocation  } from 'react-router-dom';
 
 /* 분리 기능 components */
-import { useListRecipes } from '../hooks/useListRecipes';
-import { ClickIconSearch } from '../components/Nav';
-import { ListRecipes } from '../components/ListRecipes';
+import { useListRecipes } from '../../hooks/useListRecipes';
+import { ClickIconSearch } from '../Nav';
+import { ListRecipes } from '../ListRecipes';
 
 function Search(){
 

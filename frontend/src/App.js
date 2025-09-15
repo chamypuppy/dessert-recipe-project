@@ -1,6 +1,4 @@
 import { useState, useEffect } from 'react';
-// import axios from 'axios';
-//import AddRecipeForm from './components/AddRecipeForm';
 import { BrowserRouter as Router, Routes, Route , useLocation } from 'react-router-dom';
 
 /* hooks */
@@ -8,20 +6,19 @@ import useFetchRecipes from './hooks/useFetchRecipes';
 //import useListRecipes from './hooks/useListRecipes';
 
 /* components */
-//import Home from './components/Main/Home';
 import Home from './pages/Home';
-import Search from './pages/Search';
-import AddRecipe from './pages/AddRecipe';
-import Signup from './pages/Signup';
-import DetailRecipe from './components/Recipe/DetailRecipe';
-import Login from './components/Users/Login';
-import MyPage from './components/Users/MyPage';
-import Research from './components/Users/Research';
-import { Footer } from './components/Main/Footer';
-import { DragBackButton } from './components/Main/DragBackButton';
-import { DragHomebtn } from './components/Main/DragHomebtn';
-import { PlusButton } from './components/Main/PlusButton';
-import { HomeButton } from './components/Main/HomeButton';
+import Search from './components/common/Search';
+import AddRecipe from './pages/create/AddRecipe';
+import Signup from './pages/user/Signup';
+import DetailRecipe from './pages/recipe/DetailRecipe';
+import Login from './pages/user/Login';
+import MyPage from './pages/user/MyPage';
+import Research from './pages/user/Research';
+import { Footer } from './components/common/Footer';
+import { DragBackButton } from './components/common/DragBackButton';
+import { DragHomebtn } from './components/common/DragHomebtn';
+import { PlusButton } from './components/common/PlusButton';
+import { HomeButton } from './components/common/HomeButton';
 
 
 function App() {
@@ -63,7 +60,7 @@ function App() {
         
       </Routes>
         {location.pathname !== "/users/login" && <Footer />}
-        {location.pathname !== "/users/login" && location.pathname !== "/users/signup" && (
+        {location.pathname !== "/users/login" && location.pathname !== "/users/signup" && location.pathname !== "/users/research" && (
           <>
             {/* <HomeButton /> */}
             <PlusButton />

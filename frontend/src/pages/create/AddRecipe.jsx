@@ -1,4 +1,4 @@
-import { AddRecipeForm } from "../components/RecipeCRUD/AddRecipeForm";
+import { AddRecipeForm } from "../../components/AddRecipeForm";
 
 function AddRecipe() {
 

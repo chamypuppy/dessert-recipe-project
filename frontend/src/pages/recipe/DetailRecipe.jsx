@@ -7,7 +7,7 @@ import { faChessRook } from '@fortawesome/free-solid-svg-icons';
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
 
 import axios from 'axios';
-import { DragBackButton } from '../Main/DragBackButton';
+import { DragBackButton } from '../../components/common/DragBackButton';
 
 function DetailRecipe({ recipes, recipeMethods }) {
   const { recipe_pk_id } = useParams();

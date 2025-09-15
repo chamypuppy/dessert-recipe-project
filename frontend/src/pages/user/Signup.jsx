@@ -23,6 +23,7 @@ function Signup () {
   const [pwd2, setPwd2] = useState("");
   const [pwdCompare, setPwdCompare] = useState(false);
   const [pwdCheckText, setPwdCheckText] = useState("");
+  const [loginErrorMessage, setLoginErrorMessage] = useState("");
 
   const onClickFormSubmit = async (e) => {
     e.preventDefault();
@@ -30,18 +31,35 @@ function Signup () {
     try {
       const signupResult = await axios.post(`${process.env.REACT_APP_CLOUDTYPE_BACKEND_URL}/api/users/signup/register`, formData);
 
-      if(signupResult.data.success) {
+      console.log("결과값:",signupResult);
+
+      if(signupResult.data.success) {    // 회원가입 성공
         alert(signupResult.data.message);
         navigate("/users/research");
-      }
-      else alert("회원가입에 실패하였습니다😔 \n 다시 시도 해 주세요.");
+      } else if (!signupResult.data.ok){ // 비밀번호 이슈
+        alert(signupResult.data.alert);
+      } else alert("회원가입에 실패하였습니다😔 \n다시 시도 해 주세요."); // 나머지의 가입시도 문제 이슈
     }
-    catch {
+    catch (err) {
       console.error("🟡 Signup.jsx 오류: 다시시도 해 주세요.");
-      
+
+      if(err.response) {
+        const errorMessage = err.response.data;
+        //const statusCode = err.response.status;
+        setLoginErrorMessage(errorMessage);
+        console.log(loginErrorMessage);
+        return;
+      };
+      // console.error(err.response?.data);
     }
     
   };
+
+  useEffect(() => {
+    if(loginErrorMessage) {
+      console.log(loginErrorMessage);
+    }
+  }, [loginErrorMessage]);
 
   const onChangeInput = (e) => {
     const { name:formName, value:formValue } = e.target; // 구조분해할당
@@ -138,7 +156,8 @@ function Signup () {
       <h2 style={{fontWeight: "500"}}>기본정보</h2>
       <hr style={{margin: "10px 30px", color:"lightgray"}}/>
 
-      <label for="id" class="form-label">* 아이디</label>
+      <label for="id" class="form-label">* 아이디</label> &nbsp;&nbsp;&nbsp;
+      <span style={{ "color": "red" }}>{loginErrorMessage}</span>
       <div class="input-group mb-3">
         <span class="input-group-text" id="basic-addon1">ID</span>
         <input type="text" class="form-control" placeholder="아이디" aria-label="아이디" aria-describedby="basic-addon1" 
