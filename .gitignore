@@ -52,3 +52,6 @@ bfg-report/
 
 # == front) img 제외 ==
 /frontend/public/imgs/convert_before_img
+
+# == front) rimraf(의존성 삭제 명령어) ==
+frontend/rimraf
