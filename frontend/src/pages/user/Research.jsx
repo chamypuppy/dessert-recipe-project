@@ -3,6 +3,8 @@ import Button from 'react-bootstrap/Button';
 
 import { PageStep1 } from "./function/PageStep1";
 import { ResearchProvider } from "../../context/ResearchContext";
+import { DelayResearchBtn } from "../../components/common/DelayResearchBtn";
+import { SubmitResearchBtn } from "../../components/common/SubmitResearchBtn";
 
 
 function Research() {
@@ -37,6 +39,8 @@ function Research() {
   return(
     <ResearchProvider>
       <PageStep1/>
+      <DelayResearchBtn/>
+      <SubmitResearchBtn/>
     </ResearchProvider>
     /* <div className="p-8">
       <h1 className="font-semibold text-xl">만나서 반갑습니다😄 <br/>

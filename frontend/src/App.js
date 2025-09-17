@@ -69,8 +69,8 @@ function App() {
           </>
         )}
         {location.pathname !== "/users/research" && <HomeButton />}
-        {location.pathname === "/users/research" && <DelayResearchBtn/>}
-        {location.pathname === "/users/research" && <SubmitResearchBtn/>}
+        {/* {location.pathname === "/users/research" && <DelayResearchBtn/>}
+        {location.pathname === "/users/research" && <SubmitResearchBtn/>} */}
         {/* <DragBackButton/> */}
         
     </div>
