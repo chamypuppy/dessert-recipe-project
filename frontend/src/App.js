@@ -19,7 +19,8 @@ import { DragBackButton } from './components/common/DragBackButton';
 import { DragHomebtn } from './components/common/DragHomebtn';
 import { PlusButton } from './components/common/PlusButton';
 import { HomeButton } from './components/common/HomeButton';
-
+import { DelayResearchBtn } from './components/common/DelayResearchBtn';
+import { SubmitResearchBtn } from './components/common/SubmitResearchBtn';
 
 function App() {
 
@@ -67,7 +68,9 @@ function App() {
             <DragBackButton/>
           </>
         )}
-        <HomeButton />
+        {location.pathname !== "/users/research" && <HomeButton />}
+        {location.pathname === "/users/research" && <DelayResearchBtn/>}
+        {location.pathname === "/users/research" && <SubmitResearchBtn/>}
         {/* <DragBackButton/> */}
         
     </div>

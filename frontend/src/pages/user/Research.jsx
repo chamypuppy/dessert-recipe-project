@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from "react";
 import Button from 'react-bootstrap/Button';
 
+import { PageStep1 } from "./function/PageStep1";
+import { ResearchProvider } from "../../context/ResearchContext";
+
+
 function Research() {
   const [selectedData, setSelectedData] = useState({
     level: "", habit: "", type: ""
@@ -15,16 +19,26 @@ function Research() {
     {id: 0, habit: "저당"}, {id: 1, habit: "통밀"}, {id: 2, habit: "비건"}, {id: 3, habit: "없음"});
   const [recipeType, setRecipeType] = useState(
     {id: 0, type: "제과"}, {id: 1, type: "제빵"}, {id: 2, type: "음료"}, {id: 3, type: "없음"}); */
+  const [pageStep, setPageStep] = useState(1);
 
-  const onClickButton = (value) => {
+  function nextPageStep() {
+    setPageStep(pageStep + 1);
+  } 
+  
+
+  /* const onClickButton = (value) => {
     setResearchData(liveData => ({
       //prevSelectedData.include(value) ? prevSelectedData : []
       ...liveData,
+      [] : 
     }));
-  };
+  }; */
 
   return(
-    <div className="p-8">
+    <ResearchProvider>
+      <PageStep1/>
+    </ResearchProvider>
+    /* <div className="p-8">
       <h1 className="font-semibold text-xl">만나서 반갑습니다😄 <br/>
       나만의 맞춤 서비스를 위해 몇 가지 응답을 받고 있어요<br/>:)</h1>
       <div className="font-medium text-gray-300 text-sm pt-6 pb-3">시간 내어 응답해 주시면 더 좋은 추천 서비스로 찾아뵐게요😊</div><br/><br/>
@@ -90,33 +104,7 @@ function Research() {
         </Button>
 
       </div>
-
-    {/* <label for="baking_exp" class="form-label">* 베이킹 경험여부</label>
-      <div class="input-group mb-3">
-        <span class="input-group-text" id="basic-addon1">Name</span>
-        <input type="radio" id="baking_exp" class="form-control" placeholder="이름" aria-label="이름" aria-describedby="basic-addon1" required/>
-      </div> */}
-
-
-      {/* <label for="baking_service" class="form-label">* 베이킹 경험여부</label>
-      <div class="input-group mb-3">
-        <span class="input-group-text" id="basic-addon1">Name</span>
-        <input type="selectBox" id="baking_service" class="form-control" placeholder="이름" aria-label="이름" aria-describedby="basic-addon1" required/>
-      </div> */}
-
-
-      {/* <label for="baking_service" class="form-label">* 베이킹 레벨</label>
-      <div class="input-group mb-3">
-        <span class="input-group-text" id="basic-addon1">Name</span>
-        <input type="radioBox" id="baking_service" class="form-control" placeholder="이름" aria-label="이름" aria-describedby="basic-addon1" required/>
-      </div> */}
-      
-      {/* <label for="users_intro" class="form-label">원하는 레시피</label>
-      <div class="input-group mb-3">
-        <span class="input-group-text" id="basic-addon1">Name</span>
-        <input type="checkbox" id="users_intro" class="form-control" placeholder="이름" aria-label="이름" aria-describedby="basic-addon1" required/>
-      </div> */}
-      </div>
+      </div> */
 
       /* const [research, setResearch] = useState({
     bakingExperience: false,
