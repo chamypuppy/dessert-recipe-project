@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHouse } from '@fortawesome/free-solid-svg-icons';
 
 import { useResearch } from '../../context/ResearchContext';
+import axios from 'axios';
 
 export const SubmitResearchBtn = () => {
   /* const [researchData, setResearchData] = useState({
@@ -20,9 +21,14 @@ export const SubmitResearchBtn = () => {
   const handleShow = () => setShow(true);
   const handleClose = () => setShow(false);
 
-  function onSubmitBtn() {
+  async function onSubmitBtn(e) { 
+    e.preventDefault();
+    
+    console.log(e);
+
     try {
       // await 해주기
+      const researchResult = await axios.post(`${process.env.REACT_APP_CLOUDTYPE_BACKEND_URL}`)
     } catch (err) {
 
     }
@@ -40,11 +46,11 @@ export const SubmitResearchBtn = () => {
   
   return(
     <>
-      <Button variant="primary" className='text-white text-xl'
+      <Button variant="primary" className='text-white text-xl right-6 md:right-[calc(50%-280px)]'
       style={{
           position: 'fixed',
           bottom: '50px',
-          right: 'calc(50% - 300px + 20px)', // max-width: 600px 안쪽 정렬
+          //right: 'calc(50% - 300px + 20px)', // max-width: 600px 안쪽 정렬
           color: 'white',
           border: 'none',
           zIndex: 1000,
@@ -64,9 +70,9 @@ export const SubmitResearchBtn = () => {
             <Button variant="secondary" onClick={handleClose}>
               아니오, 조금 더 고민해 볼게요
             </Button>
-            <Button variant="primary" onClick={() => {
+            <Button variant="primary" onClick={(e) => {
               handleClose();
-              onSubmitBtn();
+              onSubmitBtn(e);
             }}>
               네! 제출 할게요
             </Button>

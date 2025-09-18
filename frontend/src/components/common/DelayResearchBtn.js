@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHouse } from '@fortawesome/free-solid-svg-icons';
 
 import { useResearch } from '../../context/ResearchContext';
+import axios from 'axios';
 
 export const DelayResearchBtn = () => {
   /* const [researchData, setResearchData] = useState({
@@ -41,11 +42,11 @@ export const DelayResearchBtn = () => {
   
   return(
     <>
-      <Button variant="secondary" className='text-white text-xl'
+      <Button variant="secondary" className='text-white text-xl right-6 md:right-[calc(50%-280px)]'
       style={{
           position: 'fixed',
           bottom: '100px',
-          right: 'calc(50% - 300px + 20px)', // max-width: 600px 안쪽 정렬
+          //right: 'calc(50% - 300px + 20px)', // max-width: 600px 안쪽 정렬
           color: 'white',
           border: 'none',
           zIndex: 1000,

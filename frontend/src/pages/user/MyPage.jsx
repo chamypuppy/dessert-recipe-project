@@ -18,7 +18,7 @@ function Mypage() {
     })
     .then((response) => response.json())
     .then((data) => {
-      const userPkId = data.userPkId;
+      const userPkId = data.USER_PK_ID;
 
       if (!userPkId) {
         alert("로그인 후 방문해 주세요!");
@@ -50,7 +50,7 @@ function Mypage() {
     //const accessToken = localStorage.getItem('kakao_access_token', accessToken);
 
     try {
-      const response = await fetch(`${process.env.REACT_APP_CLOUDTYPE_BACKEND_URL}/api/users/logout`, {
+      const response = await fetch(`${process.env.REACT_APP_CLOUDTYPE_BACKEND_URL}/api/kakao/logout`, {
           method: 'POST',  
           credentials: 'include',
       });

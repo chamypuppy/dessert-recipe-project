@@ -17,14 +17,19 @@ function Search(){
   const [likeRecipes, setLikeRecipes] = useState([]);
 
 
-  /* 서버에서 세션에 저장된 userPkId 값 가져오기 */
+  /* 세션에 저장된 userPkId 값 가져오기 */
   useEffect(() => {
     fetch(`${process.env.REACT_APP_CLOUDTYPE_BACKEND_URL}/api/users/session`, {
       method: 'GET',
       credentials: 'include', // 세션 쿠키 포함 (CORS 설정에 따라 필요)
     })
     .then((response) => response.json())
-    .then((data) => setUserPkId(data.userPkId))
+    .then((data) => {
+      //console.log("data:", data);
+      //console.log("data isLogin :", data.isLogin);
+      
+      setUserPkId(data.USER_PK_ID);
+    })
     .catch((error) => console.error('로그인 상태 확인 오류:', error));
   }, []);
 

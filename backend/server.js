@@ -112,15 +112,17 @@ app.get('/api/likes', async (req, res) => {
 }); */
 
 
-app.use("/api/kakao", require("./routes/kakaoLoginRoutes"));
+
 
 
   /* 저장된 세션(userPkId)을 반환하는 API */
   app.get('/api/users/session', (req, res) => {
-    if (req.session.userPkId) {
-      res.status(200).json({ loggedIn: true, userPkId: req.session.userPkId });
+    console.log("session:", req.session.USER_PK_ID);
+
+    if (req.session.USER_PK_ID) {
+      res.status(200).json({ isLogin: true, USER_PK_ID: req.session.USER_PK_ID });
     } else {
-      res.status(401).json({ loggedIn: false, message: '로그인되지 않았습니다.' });
+      res.status(401).json({ isLogin: false, USER_PK_ID: null, message: '로그인되지 않았습니다.' });
     }
   });
 
@@ -223,7 +225,8 @@ app.get('/api/users_info/:recipePkId', (req, res) => {
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use('/api/users/logout', require('./routes/logoutRoutes'));
+app.use("/api/kakao", require("./routes/kakaoLoginRoutes"));
+// app.use('/api/users/logout', require('./routes/logoutRoutes'));
 app.use("/api/users", require("./routes/usersRoutes"));
 app.use("/api/recipes", require("./routes/recipesRoutes"));
 

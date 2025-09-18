@@ -24,7 +24,7 @@ function Home(){
       credentials: 'include', // 세션 쿠키 포함 (CORS 설정에 따라 필요)
     })
     .then((response) => response.json())
-    .then((data) => setUserPkId(data.userPkId))
+    .then((data) => setUserPkId(data.USER_PK_ID))
     .catch((error) => console.error('로그인 상태 확인 오류:', error));
   }, []);
 

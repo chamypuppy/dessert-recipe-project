@@ -1,13 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
+import axios from 'axios';
 
 const Login = () => {
-  /* const [userInfo, setUserInfo] = useState(null); */
+  const [loginData, setLoginData] = useState({
+    login_id: "", login_pwd: ""
+  })
+  const navigate = useNavigate();
 
   // 카카오 로그인 버튼 클릭 시 백엔드 서버의 로그인 엔드포인트로 이동
   const btnKakaoLogin = () => {
-    window.location.href = `${process.env.REACT_APP_CLOUDTYPE_BACKEND_URL}/api/kakao/login`; // 백엔드로 리다이렉트
+    window.location.href = `${process.env.REACT_APP_CLOUDTYPE_BACKEND_URL}/api/kakao/login`;
   };
 
    // 로그인 후 사용자 정보 받기
@@ -53,9 +57,73 @@ useEffect(() => {
   fetchUserInfo();
 }, []);
 
-function clickLoginSubmit(e) {
-  //useNavigate();
+/* 일반 로그인 */
+function onChangeInput(e) {
+  let { name:loginKey, value:loginValue } = e.target;
+
+  const emptyCheck = /\s/;
+  const korCheck = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
+
+  /* 업데이트 전 입력값조사 */
+  if(emptyCheck.test(loginValue)) {
+    alert("공백 입력은 불가합니다.");
+    loginValue = loginValue.replace(emptyCheck, "");
+    return;
+  }
+  if(korCheck.test(loginValue) && loginKey === "login_id") {
+    alert("영문, 숫자만 입력 가능합니다.");
+    loginValue = loginValue.replace(korCheck, "");
+    return;
+  }
+
+  //console.log(e.target.value);
+  setLoginData((prevLoginData) => ({
+    ...prevLoginData,
+    [loginKey] : loginValue
+  }));
+}
+console.log(loginData);
+
+async function onClickLoginSubmit(e) {
   e.preventDefault();
+  if(!loginData.login_id) {
+    alert("아이디를 입력해 주세요.");
+    return;
+  }
+  if(!loginData.login_pwd) {
+    alert("비밀번호를 입력해 주세요.");
+    return;
+  }
+
+  try {
+    const loginResult = await axios.post(`${process.env.REACT_APP_CLOUDTYPE_BACKEND_URL}/api/users/login/register`, loginData, { withCredentials: true });
+
+    console.log("결과값:",loginResult);
+    console.log("결과값2:",loginResult.data.success);
+    console.log("결과값3:",loginResult.data.message);
+    console.log("결과값4:",loginData);
+
+    if(loginResult.data.success) {    // 로그인 성공
+        alert(loginResult.data.message);
+        navigate("/");
+      } else {
+        alert(loginResult.data.message);
+      } 
+        //alert("로그인에 실패하였습니다😔 \n다시 시도 해 주세요.");
+
+
+  } catch(err) {
+    console.error("🟡 Login.jsx 오류: 다시시도 해 주세요.");
+    console.error(err);
+
+      if(err.response) {
+        const errorMessage = err.response.data;
+        //const statusCode = err.response.status;
+        //setLoginErrorMessage(errorMessage);
+        console.log("🟡 ", errorMessage);
+        return;
+      };
+  }
   
 }
 
@@ -68,7 +136,7 @@ function clickLoginSubmit(e) {
           <h3 style={{fontWeight: "bold"}}>1초만에 회원가입하고 로그인하세요!</h3>
           <h4>다양한 맞춤형 레시피를 알려드릴게요💘</h4>
         </div>
-        <button onClick={() => btnKakaoLogin()} 
+        <button onClick={() => btnKakaoLogin()} className="flex justify-center"
         style={{border:"none", backgroundColor:"transparent"}}>
           <img src='/imgs/kakao_login_medium_wide.webp'
           className='btn_kakao_login'
@@ -78,25 +146,19 @@ function clickLoginSubmit(e) {
 
       <hr style={{margin: "50px 30px 80px 30px", color:"lightgray"}}/>
 
-      <form className='login_box basic_login_box' onSubmit={(e) => clickLoginSubmit(e)}>
+      <form className='px-8 md:px-36'>
         <h2 style={{fontWeight: "bold", marginBottom: "30px", fontSize: "1.2rem"}}>일반 로그인</h2>
-        <div className='l_box bl_box'>
-          <input type='text' placeholder='아이디'/>
-          <input type='password' placeholder='비밀번호'/>
+        <div className="input-group pb-1.5">
+          <input type="text" className="form-control" placeholder="아이디" aria-label="Username" aria-describedby="basic-addon1" id="id" name="login_id" value={loginData.login_id} required onChange={onChangeInput}/>
         </div>
-        <div className="d-grid gap-2">
-          <Button variant="secondary" size="lg" type="submit" style={{backgroundColor: "var(--color-strawberry3)", border: "var(--color-drak--strawberry)"}}>
+        <div className="input-group pb-4">
+          <input type="password" className="form-control" placeholder="비밀번호" aria-label="Username" aria-describedby="basic-addon1" id="pwd" name="login_pwd" value={loginData.login_pwd} required onChange={onChangeInput}/>
+        </div>
+        <div className="d-grid gap-2 pb-3">
+          <Button variant="success" size="lg" onClick={(e) => onClickLoginSubmit(e)}>
             로그인
           </Button>
         </div>
-        
-        {/* <div class="input-group">
-          <input type="text" class="form-control" placeholder="아이디" aria-label="Username" aria-describedby="basic-addon1"/>
-        </div>
-        <div class="input-group">
-          <input type="password" class="form-control" placeholder="비밀번호" aria-label="Username" aria-describedby="basic-addon1"/>
-        </div> */}
-
       </form>
         <Link to='/users/signup'>회원가입</Link>
       {/* {userInfo && (

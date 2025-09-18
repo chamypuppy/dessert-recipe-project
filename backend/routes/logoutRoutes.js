@@ -5,7 +5,7 @@ const axios = require('axios');
 
 let SESSION;
 
-router
+/* router
   .route('/')
   .post(async(req, res) => {
     SESSION = req.session;
@@ -37,6 +37,6 @@ router
       res.status(500).send("🟡 logoutRoutes 서버 오류입니다.");
     };
     
-  });
+  }); */
 
   module.exports = router;
