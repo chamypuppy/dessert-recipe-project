@@ -106,10 +106,14 @@ async function onClickLoginSubmit(e) {
     if(loginResult.data.success) {    // 로그인 성공
         alert(loginResult.data.message);
         navigate("/");
-      } else {
-        alert(loginResult.data.message);
-      } 
-        //alert("로그인에 실패하였습니다😔 \n다시 시도 해 주세요.");
+      }
+    else {
+      alert(loginResult.data.message);
+    }
+    
+    if(loginResult.data.noExisting){
+      alert(loginResult.data.failedMessage);
+    }
 
 
   } catch(err) {

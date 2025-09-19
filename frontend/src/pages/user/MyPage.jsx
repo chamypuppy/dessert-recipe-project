@@ -29,10 +29,10 @@ function Mypage() {
         fetch(`${process.env.REACT_APP_CLOUDTYPE_BACKEND_URL}/api/users/${userPkId}`)
           .then((res) => res.json())
           .then((user) => setUserInfo(user))
-          .catch((error) => console.error('⛔Mypage.js 사용자 정보 불러오기 실패:', error));
+          .catch((error) => console.error('🟡 Mypage.js 사용자 정보 불러오기 실패:', error));
       }      
     })
-    .catch((error) => console.error('⛔Mypage.js 로그인 상태 확인 오류:', error));
+    .catch((error) => console.error('🟡 Mypage.js 로그인 상태 확인 오류:', error));
   }, [navigate]);
 
   if (!userInfo) {

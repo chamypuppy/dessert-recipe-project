@@ -59,10 +59,8 @@ router
               console.error("🟡 에러 메시지:", err.message);
               return res.status(500).send("🟡 회원가입 userRoutes 서버 오류입니다.");
             } else {
-              /* SESSION = req.session;
-              SESSION.USER_PK_ID = results[0].users_pk_id;  // 세션에 값 저장 
-              // 회원가입 후 바로 로그인 되게 할거면 withCrendential:true 프론트에 써줘야해(axios 또는 fetch에) 
-              */
+              SESSION = req.session;
+              SESSION.USER_PK_ID = results.insertId;  // 세션에 값 저장          
 
               // res.json(results); // 프론트로 결과값 전송
               return res.json({
@@ -124,7 +122,11 @@ router
       const DBsameData = 0;
       if(results.length === DBsameData) {
         console.log("🟡 가입 이력이 없는 아이디입니다.");
-        return res.status(409).send("가입 이력이 없는 아이디입니다. \n 회원가입 후 로그인해 주세요.");
+        //return res.status(409).send("가입 이력이 없는 아이디입니다. \n 회원가입 후 로그인해 주세요.");
+        return res.json({
+            noExisting: true,
+            failedMessage: "가입 이력이 없는 아이디입니다. \n 회원가입 후 로그인해 주세요."
+          });
       };
     
 
@@ -169,23 +171,52 @@ router
 .post(async (req, res) => {
   const { level, habit, find } = req.body;
 
+  console.log("req.session:", req.session);
+  console.log("USER_PK_ID:", req.session.USER_PK_ID);  //und
+  console.log("usersPkId:", req.session.usersPkId);   //und
+  SESSION = req.session; // 로그인 된 세션 불러오기
+  console.log("SESSION:", SESSION);
+  console.log("level:", level, "habit:", habit, "find:", find);
+
+  if(!SESSION) {
+    console.log("🟡 로그인 상태의 리서치 응답이 아닙니다.");
+    return;
+  }
+
   if(!level) {
     console.log("베이킹 숙련도(level) 값이 서버 등록 중 누락되었습니다. \n 다시 등록해 주세요.");
     return;
   }
-  if(!habit.legnth) {
+  if(habit.legnth === 0) {
     console.log("식문화(habit) 값이 서버 등록 중 누락되었습니다. \n 다시 등록해 주세요.");
+    return;
   }
-  if(!find.length) {
+  if(find.length === 0) {
     console.log("관심 레시피(find) 값이 서버 등록 중 누락되었습니다. \n 다시 등록해 주세요.");
+    console.log("find:", find);
+    return;
   }
+
+  const insertUserResearch = "INSERT INTO my_research(my_level, my_habit, my_find) VALUES(?,?,?)";
+
+  db.query(insertUserResearch, [level, habit, find], (err, results) => {
+    if(err){
+
+    }
+  })
 
   try {
-    // user 값을 가져와서 user값이 있는지 확인, user값과 research 테이블 조인, user의 리서치 테이블에 값 넣기
 
+    
   } catch(err) {
 
   }
-})
+});
+
+/* router
+.route("")
+.post((req, res) => {
+
+}); */
 
 module.exports = router;
