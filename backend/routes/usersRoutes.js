@@ -276,7 +276,6 @@ router
   SESSION = req.session;
   
   try {
-    //TEST 해봐야 함
     SESSION.destroy((err) => {
       if(err) {
         console.error("🟡 세션 삭제 중 오류가 발생했습니다. (일반 로그인)");
@@ -284,7 +283,7 @@ router
       };
       console.log("🔵 세션이 성공적으로 삭제되었습니다. (일반 로그인)")
       
-      return res.status(200).json({success: true, message: "🔵 쿠키 삭제 성공!"});
+      return res.status(200).json({success: true, message: "로그아웃 되었습니다!"});
     })
 
   } catch(err) {
