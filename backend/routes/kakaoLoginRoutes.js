@@ -80,20 +80,20 @@ router
           SESSION = req.session;
           SESSION.USER_PK_ID = results[0].users_pk_id;  // 세션에 값 저장
           SESSION.ACCESS_TOKEN = ACCESS_TOKEN;
-
-          res.redirect(`${process.env.CLOUDTYPE_FRONTEND_URL}/`);
+          return res.redirect(`${process.env.CLOUDTYPE_FRONTEND_URL}/`);
         } else {
           const newInsertUser = `INSERT INTO users(users_kakao_id, nickname) VALUES (?, ?)`;
           db.query(newInsertUser, [kakaoId, nickname], (err, results) => {
             if(err) {
               console.error("🟡 카카오 신규 유저 가입 오류입니다.");
-              res.status(500).send("🟡 카카오 신규 유저 가입 오류");
+              return res.status(500).send("🟡 카카오 신규 유저 가입 오류");
             }
             console.log("☀ 카카오 신규 유저 가입 성공");
             SESSION = req.session;
             SESSION.USER_PK_ID = results.insertId;
+            // SESSION.LOGIN_TYPE = 'kakao';
+            SESSION.ACCESS_TOKEN = ACCESS_TOKEN;
             res.redirect(`${process.env.CLOUDTYPE_FRONTEND_URL}/users/research`);
-
           });
         };
       });
@@ -122,13 +122,13 @@ router
 
     SESSION.destroy((err) => {
       if(err) {
-        console.error("🟡 세션 삭제 중 오류가 발생했습니다.");
+        console.error("🟡 세션 삭제 중 오류가 발생했습니다. (카카오 로그인)");
         return res.status(500).send("🟡 로그아웃을 위한 세션 삭제 중 에러 발생");
       };
       console.log("🔵 세션이 성공적으로 삭제되었습니다.")
       
       res.clearCookie('KAKAO_SESSION');
-      return res.status(200).json({message: "🔵 쿠키 삭제 성공!"});
+      return res.status(200).json({message: "로그아웃 되었습니다!"});
     })
 
 

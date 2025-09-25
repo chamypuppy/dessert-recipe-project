@@ -26,9 +26,27 @@ export const SubmitResearchBtn = () => {
     
     console.log(e);
 
+    if(!researchData.level) {
+      alert("베이킹 숙련도(level) 값이 누락되었습니다.");
+      return;
+    }
+    if(researchData.habit.length === 0) {
+      alert("식문화(habit) 값이 누락되었습니다.");
+      return;
+    }
+    if(researchData.find.length === 0) {
+      alert("관심 레시피(find) 값이 누락되었습니다.");
+      return;
+    }
+
     try {
       // await 해주기
-      const researchResult = await axios.post(`${process.env.REACT_APP_CLOUDTYPE_BACKEND_URL}/api/users/research/res/ok`, researchData)
+      const researchResult = await axios.post(`${process.env.REACT_APP_CLOUDTYPE_BACKEND_URL}/api/users/research/res/ok`, researchData, { withCredentials: true });
+
+      if(researchResult.data.success){
+        alert(researchResult.data.message);
+        navigate("/");
+      }
     } catch (err) {
 
     }

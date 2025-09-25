@@ -144,6 +144,8 @@ router
           console.log("비밀번호 일치 확인");
           SESSION = req.session;
           SESSION.USER_PK_ID = results[0].users_pk_id;
+          console.log("(isSamePwd) SESSION.USER_PK_ID:",SESSION.USER_PK_ID);
+          console.log("(isSamePwd) req.session:",req.session);
 
           return res.json({
             success: true,
@@ -171,15 +173,14 @@ router
 .post(async (req, res) => {
   const { level, habit, find } = req.body;
 
-  console.log("req.session:", req.session);
-  console.log("USER_PK_ID:", req.session.USER_PK_ID);  //und
-  console.log("usersPkId:", req.session.usersPkId);   //und
   SESSION = req.session; // 로그인 된 세션 불러오기
-  console.log("SESSION:", SESSION);
+  console.log("req.session:", req.session);
   console.log("level:", level, "habit:", habit, "find:", find);
 
-  if(!SESSION) {
-    console.log("🟡 로그인 상태의 리서치 응답이 아닙니다.");
+  const USER_PK_ID = SESSION.USER_PK_ID;
+
+  if(!USER_PK_ID) {
+    console.log("🟡 로그인 후 응답해 주세요!");
     return;
   }
 
@@ -196,27 +197,99 @@ router
     console.log("find:", find);
     return;
   }
-
-  const insertUserResearch = "INSERT INTO my_research(my_level, my_habit, my_find) VALUES(?,?,?)";
-
-  db.query(insertUserResearch, [level, habit, find], (err, results) => {
-    if(err){
-
-    }
-  })
-
+  
   try {
+      const insertUserResearch = "INSERT INTO my_research(users_pk_id, my_level, my_habit, my_find, is_research) VALUES(?,?,?,?,?)";
 
-    
+      for(const h of habit) {
+        for(const f of find) {
+          db.query(insertUserResearch, [USER_PK_ID, level, h, f, true], (err, results) => {
+        if(err){
+          console.error("🟡 중첩for문 실행 에러(/research/res/ok, insertUserResearch): 실행 중 오류가 발생했습니다.");
+          console.error("🟡 응답 상태:", err.response?.status);
+          console.error("🟡 응답 데이터:", err.response?.data);
+          console.error("🟡 에러 메시지:", err.message);
+          return;
+        };
+        });
+        };
+      };
+
+      console.log("리서치 응답이 서버에 저장되었습니다.");
+      return res.json({
+        success: true,
+        message: "리서치 응답이 저장되었습니다!😄🔅",
+      });
+      
+      
+    } catch(err) {
+      console.error("🟡 catch문: (insertUserResearch) 실행 오류");
+      res.status(500).send("🟡 리서치 응답 저장 오류");
+      // res.status(500).send("🟡 catch문: 리서치 응답 저장 오류");
+      console.error("🟡 응답 상태:", err.response?.status);
+      console.error("🟡 응답 데이터:", err.response?.data);
+      console.error("🟡 에러 메시지:", err.message);
+    }
+
+  
+});
+
+router
+.route("/research/res/no")
+.post((req, res) => {
+  const { level, habit, find } = req.body;
+  SESSION = req.session;
+  const USER_PK_ID = SESSION.USER_PK_ID;
+
+  if(!USER_PK_ID) {
+    console.log("🟡 로그인 후 응답해 주세요!");
+    return;
+  }
+  
+  try {
+    const insertUserResearch = "INSERT INTO my_research(users_pk_id, my_level, my_habit, my_find, is_research) VALUES(?,?,?,?,?)";
+
+    db.query(insertUserResearch, [USER_PK_ID, level, habit, find, false], (err, results) => {
+      if(err) {
+        console.error("🟡 try문 에러(/research/res/no, insertUserResearch): 실행 중 오류가 발생했습니다.");
+        console.error("🟡 응답 상태:", err.response?.status);
+        console.error("🟡 응답 데이터:", err.response?.data);
+        console.error("🟡 에러 메시지:", err.message);
+        return;
+      }
+      console.log("(/research/res/no) results: ", results);
+    })
+
   } catch(err) {
-
+      console.error("🟡 catch문: (/research/res/no, insertUserResearch) 실행 오류");
+      res.status(500).send("🟡 리서치 응답 저장 오류");
+      // res.status(500).send("🟡 catch문: 리서치 응답 저장 오류");
+      console.error("🟡 응답 상태:", err.response?.status);
+      console.error("🟡 응답 데이터:", err.response?.data);
+      console.error("🟡 에러 메시지:", err.message);
   }
 });
 
-/* router
-.route("")
+router
+.route("/logout")
 .post((req, res) => {
+  SESSION = req.session;
+  
+  try {
+    //TEST 해봐야 함
+    SESSION.destroy((err) => {
+      if(err) {
+        console.error("🟡 세션 삭제 중 오류가 발생했습니다. (일반 로그인)");
+        return res.status(500).send("🟡 로그아웃을 위한 세션 삭제 중 에러 발생 (일반 로그인)");
+      };
+      console.log("🔵 세션이 성공적으로 삭제되었습니다. (일반 로그인)")
+      
+      return res.status(200).json({success: true, message: "🔵 쿠키 삭제 성공!"});
+    })
 
-}); */
+  } catch(err) {
+
+  }
+})
 
 module.exports = router;

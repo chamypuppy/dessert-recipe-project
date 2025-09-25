@@ -49,6 +49,7 @@ export const PlusButton = () => {
       {/* + 버튼 */}
       <Button
         onClick={handlePlusClick}
+        variant="success"
         style={{
           position: 'fixed',
           bottom: '30px',
@@ -56,7 +57,7 @@ export const PlusButton = () => {
           width: '60px',
           height: '60px',
           borderRadius: '50%',
-          backgroundColor: '#FF6B6B',
+          //backgroundColor: '#FF6B6B',
           color: 'white',
           border: 'none',
           zIndex: 1000,

@@ -56,94 +56,77 @@ app.get('/api/recipe', (req, res) => {
 });
 */
 
+/* 저장된 세션(userPkId)을 반환하는 API */
+app.get('/api/users/session', (req, res) => {
+  console.log("session:", req.session.USER_PK_ID);
 
-
-
-/* 좋아요 API */
-
-// 좋아요 추가
-app.post('/api/likes', async (req, res) => {
-  const { userPkId, recipePkId } = req.body;
-  try {
-    await db.query(`INSERT INTO likes (likes_users_pk_id, likes_recipe_pk_id) VALUES (?, ?)`, [userPkId, recipePkId]);
-    res.status(200).send({ message: "좋아요 추가 성공" });
-  } catch (err) {
-    res.status(500).send({ error: "좋아요 추가 실패", details: err });
-  }
-});
-
-// 좋아요 취소
-app.delete('/api/likes', async (req, res) => {
-  const { userPkId, recipePkId } = req.body;
-  try {
-    await db.query(`DELETE FROM likes WHERE likes_users_pk_id = ? AND likes_recipe_pk_id = ?`, [userPkId, recipePkId]);
-    res.status(200).send({ message: "좋아요 취소 성공" });
-  } catch (err) {
-    res.status(500).send({ error: "좋아요 취소 실패", details: err });
-  }
-});
-
-// 좋아요 상태 확인
-app.get('/api/likes', async (req, res) => {
-  const { userPkId, recipePkId } = req.query;
-  try {
-    const [rows] = await db.query(
-      `SELECT COUNT(*) AS count FROM likes WHERE likes_users_pk_id = ? AND likes_recipe_pk_id = ?`,
-      [userPkId, recipePkId]
-    );
-    res.status(200).send({ isLiked: rows[0].count > 0 });
-  } catch (err) {
-    res.status(500).send({ error: "좋아요 상태 확인 실패", details: err });
-  }
-});
-
-// 레시피별 좋아요 개수
-/* app.get('/api/recipes/:recipePkId/likeCount', async (req, res) => {
-  const { recipePkId } = req.params;
-  try {
-    const [rows] = await db.query(
-      `SELECT COUNT(*) AS count FROM likes WHERE likes_recipe_pk_id = ?`,
-      [recipePkId]
-    );
-    res.status(200).send({ likeCount: rows[0].count });
-  } catch (err) {
-    res.status(500).send({ error: "좋아요 개수 가져오기 실패", details: err });
-  }
-}); */
-
-
-
-
-
-  /* 저장된 세션(userPkId)을 반환하는 API */
-  app.get('/api/users/session', (req, res) => {
-    console.log("session:", req.session.USER_PK_ID);
-
-    if (req.session.USER_PK_ID) {
-      res.status(200).json({ isLogin: true, USER_PK_ID: req.session.USER_PK_ID });
-    } else {
-      res.status(401).json({ isLogin: false, USER_PK_ID: null, message: '로그인되지 않았습니다.' });
-    }
-  });
-
-  /* Mypage API: 나의 정보 불러오기 ✅*/
-  app.get('/api/users/:userPkId', (req, res) => {
-    const userPkId = req.params.userPkId;
-  
-    const query = 'SELECT users_kakao_id, users_id, users_name, nickname, DATE_FORMAT(signup_date, "%Y-%m-%d %H:%i:%s") AS format_signup_date, users_img FROM users WHERE users_pk_id = ?';
-    db.query(query, [userPkId], (err, results) => {
-      if (err) {
-        console.error('💦MyPage API 사용자 정보 조회 오류: \n', err);
-        return res.status(500).send('Mypage 사용자 정보 조회 오류');
-      }
-  
-      if (results.length > 0) { //userPkId가 users 테이블에 존재하는지 유무 확인
-        res.json(results[0]);
-      } else {
-        res.status(404).send('Mypage API 오류: 사용자 정보 없음');
-      }
+  if (req.session.USER_PK_ID) {
+    res.status(200).json({ 
+      isLogin: true, 
+      USER_PK_ID: req.session.USER_PK_ID,
+      ACCESS_TOKEN: req.session.ACCESS_TOKEN    
     });
+  } else {
+    res.status(401).json({ 
+      isLogin: false, 
+      USER_PK_ID: null,
+      message: '로그인되지 않았습니다.' 
+    });
+  }
+});
+
+/* Mypage API: 나의 정보 불러오기 */
+app.get('/api/users/:USER_PK_ID', (req, res) => {
+  const USER_PK_ID = req.params.USER_PK_ID;
+  console.log("USER_PK_ID:", USER_PK_ID);
+
+  const myPageInfo = 'SELECT users_kakao_id, users_id, users_name, nickname, DATE_FORMAT(signup_date, "%Y-%m-%d %H:%i:%s") AS format_signup_date, users_img FROM users WHERE users_pk_id = ?';
+  db.query(myPageInfo, [USER_PK_ID], (err, results) => {
+    if (err) {
+      console.error('🟡 MyPage API 사용자 정보 조회 오류: \n', err);
+      console.error("🟡 응답 상태:", err.response?.status);
+      console.error("🟡 응답 데이터:", err.response?.data);
+      console.error("🟡 에러 메시지:", err.message);
+      return res.status(500).send('Mypage 사용자 정보 조회 오류');
+    }
+
+    /* if (results.length > 0) { //userPkId가 users 테이블에 존재하는지 유무 확인
+      res.json(results[0]);
+    } else {
+      res.status(404).send('Mypage API 오류: 사용자 정보 없음');
+    } */
+   console.log("디버깅중results: ", results);
+   console.log("디버깅중results[0]: ", results[0]);
+    if (results.length === 0) { //userPkId가 users 테이블에 존재하는지 유무 확인
+      // res.status(404).send('Mypage API 오류: 사용자 정보 없음');
+      console.error("userInfoResults.length === 0 오류");
+      return res.status(404).send('🟡 Mypage API 오류: 사용자 정보가 없어서 불러오지 못하였습니다.');
+    }
+    const userInfoResults = results[0];
+
+
+    const researchInfo = "SELECT my_level, my_habit, my_find FROM my_research WHERE is_research = 1 AND users_pk_id = ? GROUP BY users_pk_id, my_level, my_habit, my_find";
+    db.query(researchInfo, [USER_PK_ID], (err, researchInfoResults) => {
+      if(err) {
+        console.error("🟡 researchInfo 쿼리 불러오기 오류");
+        console.error("🟡 응답 상태:", err.response?.status);
+        console.error("🟡 응답 데이터:", err.response?.data);
+        console.error("🟡 에러 메시지:", err.message);
+      };
+
+      res.status(200).json({
+        userInfo: results[0],
+        researchInfo: researchInfoResults
+      });
+
+      console.log("디디디디디버깅userInfo:", results[0]);
+      console.log("researchResults:", researchInfoResults);
+
+    })
+
+
   });
+});
 
 
 
@@ -174,24 +157,7 @@ app.get('/api/recipes/search', (req, res) => {
   })
 })
 
-// 스크랩된 레시피 가져오기 API
-app.get('/api/scraps/:user_id', (req, res) => {
-  const userId = req.params.user_id;
-  const query = `
-    SELECT r.recipe_pk_id, r.recipe_name, r.recipe_intro, r.recipe_image, s.scrap_date
-    FROM scraps s
-    JOIN recipe r ON s.scrap_recipe_id = r.recipe_pk_id
-    WHERE s.scrap_user_id = ?;
-  `;
-  db.query(query, [userId], (err, results) => {
-    if (err) {
-      console.error('💦 스크랩한 레시피 불러오는 API 작업에 오류가 발생하였습니다!: \n', err);
-      res.status(500).send('스크랩된 레시피 불러오기에 실패하였습니다: 서버 오류');
-    } else {
-      res.json(results);
-    }
-  });
-});
+
 
 /* ✅ DetailPage에 users_intro 가져오기 */
 app.get('/api/users_info/:recipePkId', (req, res) => {

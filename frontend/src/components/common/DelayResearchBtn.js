@@ -21,17 +21,19 @@ export const DelayResearchBtn = () => {
   const handleShow = () => setShow(true);
   const handleClose = () => setShow(false);
 
-  function clickLaterBtn() {
+  async function submitLaterBtn() {
       setResearchData((prevData) => ({
         ...prevData,
-        level: "없음",
+        level: null,
+        habit: [],
+        find: []
+        /* level: "없음",
         habit: ["없음"],
-        find: ["없음"]
+        find: ["없음"] */
       }));
 
       try {
-
-        // await 해주기
+        await axios.post(`${process.env.REACT_APP_CLOUDTYPE_BACKEND_URL}/api/users/research/res/no`, researchData, { withCredentials: true });
         navigate("/");
       } catch(err) {
 
@@ -68,7 +70,7 @@ export const DelayResearchBtn = () => {
             </Button>
             <Button variant="primary" onClick={() => {
               handleClose();
-              clickLaterBtn();
+              submitLaterBtn();
             }}>
               네, 그렇게 할게요
             </Button>

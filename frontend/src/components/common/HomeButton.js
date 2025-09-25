@@ -17,6 +17,7 @@ export const HomeButton = () => {
       {/* + 버튼 */}
       <Button
         onClick={clickHomeBtn}
+        variant="success"
         style={{
           position: 'fixed',
           bottom: '105px',
@@ -24,7 +25,7 @@ export const HomeButton = () => {
           width: '60px',
           height: '60px',
           borderRadius: '50%',
-          backgroundColor: '#FF6B6B',
+          //backgroundColor: '#FF6B6B',
           color: 'white',
           border: 'none',
           zIndex: 1000,
