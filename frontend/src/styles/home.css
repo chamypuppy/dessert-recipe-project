@@ -1,5 +1,5 @@
 .header {display:flex; justify-content: space-around;}
-.search {padding: 10px 0 1px 0; position: sticky; top: 0; z-index: 1; background-color: white;}
+/* .search {padding: 10px 0 1px 0; position: sticky; top: 0; z-index: 1; background-color: white;} */
 
 .s_box {width: 100px; height: 100px; background-color: #f0f0f0; 
   border-radius: 15px;}

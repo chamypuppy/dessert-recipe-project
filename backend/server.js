@@ -75,7 +75,79 @@ app.get('/api/users/session', (req, res) => {
   }
 });
 
-/* Mypage API: 나의 정보 불러오기 */
+
+
+
+
+/* ✅ 레시피 검색 기능 */
+/* app.get('/api/recipes/search', (req, res) => {
+  const keyword = req.query.keyword;
+  const query = `SELECT 
+        r.recipe_pk_id,
+        r.recipe_name, 
+        r.recipe_image,
+        r.scrap_count, 
+        u.nickname AS author_name
+      FROM recipe r
+      LEFT JOIN users u ON r.author_id = u.users_pk_id
+      WHERE recipe_name LIKE ?;`
+
+  const param = `%${keyword}%`;
+
+  db.query(query, [param], (err, results) => {
+    if(err) {
+      console.error('💦recipe search API의 DB query에 에러가 발생했습니다!: \n', err);
+      res.status(500).send('recipes search API 오류');
+    } else {
+      res.json(results);
+      console.log('받은 API 확인:', results);
+      console.log('받은 req.query:', JSON.stringify(req.query));
+    }
+  })
+}) */
+
+
+
+/* ✅ DetailPage에 users_intro 가져오기 */
+app.get('/api/users_info/:recipePkId', (req, res) => {
+  const { recipePkId } = req.params;
+  const query = `
+    SELECT 
+    u.nickname,
+    u.users_intro
+    FROM recipe r
+    LEFT JOIN users u ON r.author_id = u.users_pk_id
+    WHERE r.recipe_pk_id = ?;
+  `;
+    db.query(query, [recipePkId], (err, results) => {
+
+      if(err) {
+        console.error('💦users_info API의 DB 쿼리에 에러가 발생했습니다!: \n', err);
+      res.status(500).send('users_info API 오류');
+      } else {
+        if(results.length > 0) {
+          res.json({ nickname: results[0].nickname,  // ✅
+                     users_intro: results[0].users_intro });
+        } else {
+          res.status(404).send('해당 레시피에 맞는 유저가 아닙니다.');
+        }
+      }
+
+    })
+    
+});
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+app.use("/api/kakao", require("./routes/kakao"));
+// app.use('/api/users/logout', require('./routes/logout'));
+app.use("/api/users", require("./routes/users"));
+app.use("/api/recipe", require("./routes/recipe"));
+
+
+
+/* Mypage API: 나의 정보 불러오기 << /username이랑 충돌남 */
 app.get('/api/users/:USER_PK_ID', (req, res) => {
   const USER_PK_ID = req.params.USER_PK_ID;
   console.log("USER_PK_ID:", USER_PK_ID);
@@ -127,75 +199,6 @@ app.get('/api/users/:USER_PK_ID', (req, res) => {
 
   });
 });
-
-
-
-/* ✅ 레시피 검색 기능 */
-app.get('/api/recipes/search', (req, res) => {
-  const keyword = req.query.keyword;
-  const query = `SELECT 
-        r.recipe_pk_id,
-        r.recipe_name, 
-        r.recipe_image,
-        r.scrap_count, 
-        u.nickname AS author_name
-      FROM recipe r
-      LEFT JOIN users u ON r.author_id = u.users_pk_id
-      WHERE recipe_name LIKE ?;`
-
-  const param = `%${keyword}%`;
-
-  db.query(query, [param], (err, results) => {
-    if(err) {
-      console.error('💦recipe search API의 DB query에 에러가 발생했습니다!: \n', err);
-      res.status(500).send('recipes search API 오류');
-    } else {
-      res.json(results);
-      console.log('받은 API 확인:', results);
-      console.log('받은 req.query:', JSON.stringify(req.query));
-    }
-  })
-})
-
-
-
-/* ✅ DetailPage에 users_intro 가져오기 */
-app.get('/api/users_info/:recipePkId', (req, res) => {
-  const { recipePkId } = req.params;
-  const query = `
-    SELECT 
-    u.nickname,
-    u.users_intro
-    FROM recipe r
-    LEFT JOIN users u ON r.author_id = u.users_pk_id
-    WHERE r.recipe_pk_id = ?;
-  `;
-    db.query(query, [recipePkId], (err, results) => {
-
-      if(err) {
-        console.error('💦users_info API의 DB 쿼리에 에러가 발생했습니다!: \n', err);
-      res.status(500).send('users_info API 오류');
-      } else {
-        if(results.length > 0) {
-          res.json({ nickname: results[0].nickname,  // ✅
-                     users_intro: results[0].users_intro });
-        } else {
-          res.status(404).send('해당 레시피에 맞는 유저가 아닙니다.');
-        }
-      }
-
-    })
-    
-});
-
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-
-app.use("/api/kakao", require("./routes/kakaoLoginRoutes"));
-// app.use('/api/users/logout', require('./routes/logoutRoutes'));
-app.use("/api/users", require("./routes/usersRoutes"));
-app.use("/api/recipes", require("./routes/recipesRoutes"));
-
 
 //app.use(router);
 
