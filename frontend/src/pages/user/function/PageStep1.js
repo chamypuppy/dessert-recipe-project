@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Button from 'react-bootstrap/Button';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import ToggleButton from 'react-bootstrap/ToggleButton';
-import { useResearch } from "../../../context/ResearchContext";
+import { useResearch } from "../../../app/providers/context/ResearchContext";
 
 export const PageStep1 = () => {
   /* 

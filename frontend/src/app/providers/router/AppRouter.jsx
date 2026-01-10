@@ -3,6 +3,7 @@ import { Routes, Route, useLocation } from 'react-router-dom';
 import { Main } from "../../../pages/main/ui/Main";
 import DetailRecipe from "../../../pages/detail-recipe/ui/DetailRecipe";
 import { Search } from '../../../pages/SearchResult/Search';
+import { Login } from '../../../pages/login/ui/Login';
 
 export const AppRouter = () => {
 
@@ -15,9 +16,10 @@ export const AppRouter = () => {
         <Route path="/" element={<Main />}/>
         <Route path="/recipe/detail/:recipe_pk_id" element={<DetailRecipe />}/>
         <Route path="/recipe/search" element={<Search />}/>
+        <Route path="/users/login" element={<Login />} />
 
         {/* <Route path="/recipe/:recipe_pk_id" element={<DetailRecipe recipes={fetchRecipe} recipeMethods={recipeMethods} />} />
-          <Route path="/users/login" element={<Login />} />
+          
           <Route path="/users/signup" element={<Signup/>}/>
           <Route path="/users/mypage" element={<MyPage />} />
           <Route path="/users/research" element={<Research />} /> */}

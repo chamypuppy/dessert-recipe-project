@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Button from 'react-bootstrap/Button';
 
 import { PageStep1 } from "./function/PageStep1";
-import { ResearchProvider } from "../../context/ResearchContext";
+import { ResearchProvider } from "../../app/providers/context/ResearchContext";
 import { LaterResearchBtn } from "../../components/common/LaterResearchBtn";
 import { SubmitResearchBtn } from "../../components/common/SubmitResearchBtn";
 

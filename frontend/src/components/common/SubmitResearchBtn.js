@@ -5,7 +5,7 @@ import Modal from 'react-bootstrap/Modal';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHouse } from '@fortawesome/free-solid-svg-icons';
 
-import { useResearch } from '../../context/ResearchContext';
+import { useResearch } from '../../app/providers/context/ResearchContext';
 import axios from 'axios';
 
 export const SubmitResearchBtn = () => {
