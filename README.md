@@ -2,8 +2,8 @@
 --
 다양한 식문화를 반영하는 맞춤형 디저트 레시피 SPA<br/><br/><br/>
 <a href="https://web-frontend-m9r49kx74d07a286.sel4.cloudtype.app/">🧩 서비스링크</a><br/><br/>
-<a href="https://drive.google.com/file/d/1_EFo2QAoFCPE3HUUokfYqxvUkO_fJxsW/view?usp=sharing](https://drive.google.com/file/d/10gRyNFK0QM_UHB-dk4h19GfrIHsmmN-M/view?usp=sharing">🌏 [Full-Stack] 포트폴리오 (26.03.09~)</a><br/><br/>
-<a href="https://drive.google.com/file/d/1_EFo2QAoFCPE3HUUokfYqxvUkO_fJxsW/view?usp=sharing](https://drive.google.com/file/d/10gRyNFK0QM_UHB-dk4h19GfrIHsmmN-M/view?usp=sharing">🌏 [Cloud Engineer] 포트폴리오 (26.03.09~)</a><br/><br/>
+<a href="https://drive.google.com/file/d/10gRyNFK0QM_UHB-dk4h19GfrIHsmmN-M/view?usp=sharing">🌏 [Full-Stack] 포트폴리오 (26.03.09~)</a><br/><br/>
+<a href="https://drive.google.com/file/d/1lO6QEEfBS95ZxL3NH_gb-l-K71d_y81y/view?usp=sharing)">🌏 [Cloud Engineer] 포트폴리오 (26.03.09~)</a><br/><br/>
 <a href="https://drive.google.com/file/d/1EkWlBU6DzKug0rMW-6adauH68t_aGzri/view?usp=sharing">🌏 서비스링크 작동 시연 (25.09.21~)</a><br/><br/>
 
 #### ※ FSD 마이그레이션 (25.11 ~)
