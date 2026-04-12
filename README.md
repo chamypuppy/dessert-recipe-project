@@ -1,9 +1,10 @@
 디저트 레시피 공유
 --
 다양한 식문화를 반영하는 맞춤형 디저트 레시피 SPA<br/><br/><br/>
-<a href="https://web-frontend-m9r49kx74d07a286.sel4.cloudtype.app/">🧩서비스링크 바로가기</a><br/><br/>
-<a href="https://drive.google.com/file/d/1_EFo2QAoFCPE3HUUokfYqxvUkO_fJxsW/view?usp=sharing">🌏 최신 동향 포트폴리오 pdf 바로가기 (25.09.21~)</a><br/><br/>
-<a href="https://drive.google.com/file/d/1EkWlBU6DzKug0rMW-6adauH68t_aGzri/view?usp=sharing">🌏 서비스링크 작동 영상 (25.09.21~)</a><br/><br/>
+<a href="https://web-frontend-m9r49kx74d07a286.sel4.cloudtype.app/">🧩 서비스링크</a><br/><br/>
+<a href="https://drive.google.com/file/d/1_EFo2QAoFCPE3HUUokfYqxvUkO_fJxsW/view?usp=sharing](https://drive.google.com/file/d/10gRyNFK0QM_UHB-dk4h19GfrIHsmmN-M/view?usp=sharing">🌏 [Full-Stack] 포트폴리오 (26.03.09~)</a><br/><br/>
+<a href="https://drive.google.com/file/d/1_EFo2QAoFCPE3HUUokfYqxvUkO_fJxsW/view?usp=sharing](https://drive.google.com/file/d/10gRyNFK0QM_UHB-dk4h19GfrIHsmmN-M/view?usp=sharing">🌏 [Cloud Engineer] 포트폴리오 (26.03.09~)</a><br/><br/>
+<a href="https://drive.google.com/file/d/1EkWlBU6DzKug0rMW-6adauH68t_aGzri/view?usp=sharing">🌏 서비스링크 작동 시연 (25.09.21~)</a><br/><br/>
 
 #### ※ FSD 마이그레이션 (25.11 ~)
 대대적인 구조 개편이 이루어지고 있어 일부 기능을 제한하고 있습니다.<br/>
@@ -14,57 +15,60 @@
 프로젝트 소개
 --
 ### 개발 목표
-- 디저트 레시피를 찾을 때 pc와 모바일에서 편리하게 확인할 수 있는 웹앱 페이지를 만들고자 함
-- 저당, 비건, 통밀 등 다양한 식문화를 가진 이색 디저트 레시피도 카테고리화 하여 수록하고, 맞춤형 서비스로도 추천할 수 있게 하기 위함
-- 사이드 프로젝트 암기장 VOCA를 배포하며 알게된 문제점과 원인으로 예측되는 개념들을 사용해보기 위함<br/>
-  ```
-  문제: netlify에 빌드하여 기능들을 수행해보았는데 DB에 저장된 data들이 하나도 반영이 되지 않아 기능이 작동되지 않음
-  
-  해결 접근: 새 프로젝트를 통해 해당되는 개념들을 직접 사용해보고 해결하기 위함 (그래서 express를 사용)
-  
-  원인 추정: https://chamypuppy.tistory.com/108
-  ```
 
-- 직접 사용의 목적
+#### 1. 기획 의도
+사용자 중심의 크로스 플랫폼 개발 및 다양성 존중
+- 반응형 웹 디자인: PC 및 모바일 환경 어디서든 동일하게 최적화된 UX를 제공하는 레시피 웹앱 구현
+- 식문화 다양성 대응: 저당, 비건, 통밀 등 특수 식단을 고려한 세부 카테고리 설계 및 사용자 맞춤형 큐레이션 서비스 제공<br/><br/>
+
+#### 2. 기술적 도전
+- 인프라 한계 극복 및 트러블슈팅: 이전 프로젝트(VOCA)의 정적 호스팅 환경(Netlify)에서 발견한 데이터 휘발성 문제를 분석하고 해결하기 위한 Express 기반 백엔드 시스템 도입<br/><br/>
+- 인프라 마이그레이션(PaaS to IaaS):
+  - 초기 배포 단계에서 설정이 간편한 CloudType(PaaS)을 활용하였으나 실무에서 널리 쓰이는 리눅스 기반 인프라 운영 경험을 쌓고 서버 제어권을 확보하기 위해 AWS(IaaS) 환경으로 이전
+  - 비용 효율성을 고려하여 AWS 프리티어 범위 내에서 Ubuntu 서버로 구축 및 보안그룹 설정을 통해 외부 환경에서의 보안을 강화함<br/><br/>
+- PM2를 통한 무중단 서비스 운영: 고가의 유료 플랜 없이도 안정적인 서비스를 운영하기 위해 pm2 프로세스 관리 기능 도입<br/><br/>
+- 데이터 영속성 확보: Netlify 등 정적 호스팅 환경의 데이터 휘발성 문제를 인지하고 Express 서버 AWS 연결을 통해 지속적인 서비스 유지가 가능한 Full-Stack 아키텍처 구축
+
+
 
 <br/>
 
 ### 개발 기간
-24.10 ~ 개발 중단 (26.03)
+24.10 ~ ~~개발 중단 (26.03)~~ > 개발 재개 (26.04)
 
 <br/>
 
-### 개발 환경
-```Language: react```
-```DB: MySQL```
-
-<br/>
 
 ### 사용 기술
-```front: bootstrap, tailwind```
-```back: node.js, express```
+```Infra: AWS (EC2, RDS, S3), Cloudtype(PaaS), Git, GitHub```<br/><br/>
+```Back-end: NodeJS, Express, MySQL```<br/><br/>
+```Front-end: React, JavaScript, Tailwind CSS, Bootstrap```<br/><br/>
+```IDE: Cursor, VSCode```
 
 <br/><br/>
 
 개발 노트
 --
 ### 설계 구조
-개발 규모의 커짐에 따라 결합 의존성이 높은 것을 인지하고 개선하고자,
-기존의 common - pages - hooks 구조에서 FSD구조로 확장을 하게 되었습니다.<br/><br/>
-- **app:**<br/>
-  route 페이지들을 준비하는 공간<br/><br/>
-- **context:** <br/>광역으로 state를 저장하고 이용하는 공간<br/><br/>
-- **features:** <br/>특정한 기능 구조를 담은 공간<br/><br/>
-- **pages:** <br/>route UI를 실현하는 실제 페이지<br/><br/>
-- **entities:** <br/>server에서 가져오는 데이터 hooks<br/><br/>
-- **widget:** <br/>features와 entities를 결합하고, 공유하는 UI를 만드는 공간<br/><br/>
-- **shared:** <br/>재사용 가능성이 있고, 어떤 기능에 치우치지 않은 코드로 컴포넌트화<br/><br/>
+프로젝트 규모 확장에 따른 컴포넌트 간 높은 결합도를 해소하고자 기존 레이어 구조의 한계를 분석하고 **FSD(Feature-Sliced Design)** 아키텍처를 도입하여 모듈화와 유지보수성을 극대화하였습니다.<br/><br/>
 
-각 폴더 내에 2개의 폴더 model, ui로 나누어 필요한 기능과 화면을 js와 jsx로 구분지어 개발하였습니다.
+- **app:**<br/>
+  route 페이지 그룹화<br/><br/>
+- **context:** <br/>광역 state 저장 및 이용<br/><br/>
+- **features:** <br/>특정 서비스 기능 구조 그룹화<br/><br/>
+- **pages:** <br/>route UI 실현 페이지<br/><br/>
+- **entities:** <br/>데이터 중심 그룹화 (useHooks)<br/><br/>
+- **widget:** <br/>features와 entities 구조 결합 및 공유 UI<br/><br/>
+- **shared:** <br/>재사용 가능성 & 포괄적인 레이아웃 코드<br/><br/><br/>
+
+<sub>기능(model)과 화면(ui)을 물리적으로 분리하고 ```js```와 ```jsx``` 확장자를 전락적으로 활용하여 파일의 역할과 책임을 명확히 정의했습니다.<br/>
+복잡한 프로젝트 구조 내에서도 기능 단위의 빠른 파악이 가능하도록 설계했습니다.</sub>
+
+
 
 <br/><br/>
 ### 개발 기능
-※ FSD 구조 변경으로 인해 바로가기 아이콘, 회원가입 & 로그인 & 마이페이지 이용이 제한됩니다.
+※ FSD 아키텍처 마이그레이션으로 인해 바로가기 아이콘, 회원가입 & 로그인 & 마이페이지 이용이 제한됩니다.
 빠른 시일 내 개선 예정입니다.<br/><br/>
 #### pages
 - **홈 & 상세 페이지**
@@ -92,15 +96,15 @@
 - ~~홈 화면에 레시피 (+) 버튼 추가~~ (FSD 구조 변경으로 바로가기 아이콘들 임시 블라인드)
 - 검색 기능 추가
   <br/>아이콘 및 엔터로 검색 기능 해결
-  <br/>FSD 구조 개선으로 인해 검색한 키워드 목록 불러오기에 에러 확인 & 해결 예정
-- ~~홈화면 바로가기 아이콘 추가~~ (FSD 구조 변경으로 바로가기 아이콘들 임시 블라인드)
+  <br/>FSD 아키텍처 구조 개선으로 인해 검색한 키워드 목록 불러오기에 에러 확인 & 해결 목표 설정
+- ~~홈화면 바로가기 아이콘 추가~~ (구조 변경으로 인한 바로가기 아이콘들 임시 블라인드)
 - tailwind 도입(✔ 25.09.15 ~)
 
 <br/>
 
 ### 개발 중 & 예정 기능
 - ~~카카오 로그아웃 기능 해결(✔ 25.02.23 해결)~~
-- ~~프로젝트 코드 배포 (✔ 25.04.25 DB와 server 연결 성공)~~
+- ~~프로젝트 코드 배포 (✔ 25.04.25 DB와 server 연결 완료)~~
 - 레시피 CRUD 기능 개발
 - 레시피 좋아요 & 모아보기 기능
 - 추천 레시피 페이지
@@ -116,7 +120,7 @@
 
 회고 및 트러블슈팅
 --
-<a href="https://chamypuppy.tistory.com/category/%EB%A6%AC%EC%95%A1%ED%8A%B8%EB%A1%9C%20%EC%9B%B9%20%EA%B0%9C%EB%B0%9C%20A%20to%20Z" target="_blank">🔗티스토리</a>
+<a href="https://chamypuppy.tistory.com/category/%EB%A6%AC%EC%95%A1%ED%8A%B8%EB%A1%9C%20%EC%9B%B9%20%EA%B0%9C%EB%B0%9C%20A%20to%20Z" target="_blank">🔗 티스토리</a>
 
 <br/><br/>
 <br/>
@@ -141,24 +145,26 @@
 <br/><br/>
 
 ```
-💬 업로드 용량 문제로 인해 gif 압축이 진행되어 화면 전환과 화면의 일부가 매끄럽지 못할 수 있습니다.
+💬 ReadMe 업로드 용량 문제로 인해 gif 압축이 진행되어 화면 전환과 화면의 일부가 매끄럽지 못할 수 있습니다.
 
-💬 리드미 gif 이미지 누락 관련:
-재업로드 후에도 지속적으로 파일이 내려가는 경우가 확인되어 불편하시더라도 Issues 탭에서도 gif 이미지 확인이 가능함을 안내 및 양해 부탁드리겠습니다 (_ _)
+💬 ReadMe gif 이미지 누락 관련:
+재업로드 후에도 지속적으로 파일이 내려가는 경우가 확인되어 불편하시더라도 Issues 탭 또는 AWS Service Link & 개발 시연 영상에서 확인이 가능함을 안내드립니다.
 ```
 
 <br/><br/>
 
 배포하기
 --
-- ```DB, back, front``` 모두 ```dessert-recipe-project``` 레포지토리를 통해 clouytype에 코드 배포 완료<br/>
-  - 로컬 MySQL Workbench와 cloudtype 연결 & 배포하기 (✔ 25.04.25 배포 성공)
-  - 깃허브 backend 서버와 cloudtype 연결하기 (✔ 25.04.25 연결 성공)
-  - 깃허브 서브 디렉토리 frontend 폴더와 cloudtype 연결하기 (✔ 25.05.09 연결 성공)
-- 내부 CORS 설정과 server 내 API 연결 최적화 시도 완료<br/>
-- 디저트 레시피 프로젝트 **서비스 배포** 완료
-  - ```홈``` &nbsp; ```상세 레시피``` &nbsp; ```로그인``` &nbsp; ```마이페이지``` &nbsp; ```검색``` 페이지 모두 서비스 배포 링크에서 확인하실 수 있습니다.
-- 카카오 로그인 (KOE101) 에러 검토 완료<br/>
+-  ```dessert-recipe-project``` clouytype(PaaS) 배포 완료<br/>
+   - 로컬 MySQL Workbench와 cloudtype 연결 & 배포하기 (✔ 25.04.25)
+    - 깃허브 backend 서버와 cloudtype 연결하기 (✔ 25.04.25)
+    - 깃허브 서브 디렉토리 frontend 폴더와 cloudtype 연결하기 (✔ 25.05.09)<br/><br/>
+  
+- 내부 CORS 설정과 server 내 API 연결 최적화 시도 완료<br/><br/>
+- 디저트 레시피 프로젝트 **서비스 배포** 완료<br/>
+  - ```홈``` &nbsp; ```상세 레시피``` &nbsp; ```로그인``` &nbsp; ```마이페이지``` &nbsp; ```검색``` 페이지 모두 서비스 배포 링크에서 확인하실 수 있습니다.<br/><br/>
+- 카카오 로그인 (KOE101) 에러 검토 완료<br/><br/>
+- **AWS (EC2, RDS, S3) 서비스 배포 완료** (✔ 26.02.04)
 <br/><br/>
 
 ### 배포 현황
