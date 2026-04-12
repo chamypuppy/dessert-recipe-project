@@ -1,4 +1,4 @@
-디저트 레시피 공유
+디저트 레시피 공유 풀스택 서비스 `Made Sweet`
 --
 다양한 디저트 조리 방식을 공유하는 Full-Stack 웹 서비스 구축 및 AWS 기반 인프라 운영<br/><br/><br/>
 <a href="https://web-frontend-m9r49kx74d07a286.sel4.cloudtype.app/">🧩 서비스링크</a><br/><br/>
