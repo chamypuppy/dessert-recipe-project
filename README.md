@@ -1,14 +1,11 @@
 디저트 레시피 공유
 --
-다양한 식문화를 반영하는 맞춤형 디저트 레시피 SPA<br/><br/><br/>
+다양한 디저트 조리 방식을 공유하는 Full-Stack 웹 서비스 구축 및 AWS 기반 인프라 운영<br/><br/><br/>
 <a href="https://web-frontend-m9r49kx74d07a286.sel4.cloudtype.app/">🧩 서비스링크</a><br/><br/>
 <a href="https://drive.google.com/file/d/10gRyNFK0QM_UHB-dk4h19GfrIHsmmN-M/view?usp=sharing">🌏 [Full-Stack] 포트폴리오 (26.03.09~)</a><br/><br/>
 <a href="https://drive.google.com/file/d/1lO6QEEfBS95ZxL3NH_gb-l-K71d_y81y/view?usp=sharing)">🌏 [Cloud Engineer] 포트폴리오 (26.03.09~)</a><br/><br/>
 <a href="https://drive.google.com/file/d/1EkWlBU6DzKug0rMW-6adauH68t_aGzri/view?usp=sharing">🌏 서비스링크 작동 시연 (25.09.21~)</a><br/><br/>
 
-#### ※ FSD 마이그레이션 (25.11 ~)
-대대적인 구조 개편이 이루어지고 있어 일부 기능을 제한하고 있습니다.<br/>
-빠른 시일 내에 마칠 수 있도록 하겠습니다.<br/>
 
 <br/>
 
@@ -27,9 +24,11 @@
   - 초기 배포 단계에서 설정이 간편한 CloudType(PaaS)을 활용하였으나 실무에서 널리 쓰이는 리눅스 기반 인프라 운영 경험을 쌓고 서버 제어권을 확보하기 위해 AWS(IaaS) 환경으로 이전
   - 비용 효율성을 고려하여 AWS 프리티어 범위 내에서 Ubuntu 서버로 구축 및 보안그룹 설정을 통해 외부 환경에서의 보안을 강화함<br/><br/>
 - PM2를 통한 무중단 서비스 운영: 고가의 유료 플랜 없이도 안정적인 서비스를 운영하기 위해 pm2 프로세스 관리 기능 도입<br/><br/>
-- 데이터 영속성 확보: Netlify 등 정적 호스팅 환경의 데이터 휘발성 문제를 인지하고 Express 서버 AWS 연결을 통해 지속적인 서비스 유지가 가능한 Full-Stack 아키텍처 구축
+- 데이터 영속성 확보: Netlify 등 정적 호스팅 환경의 데이터 휘발성 문제를 인지하고 Express 서버 AWS 연결을 통해 지속적인 서비스 유지가 가능한 Full-Stack 아키텍처 구축<br/><br/>
 
 
+### 핵심 역할
+AWS 인프라 아키텍처 설계, 백엔드 API 서버 구축, 데이터베이스 스키마 설계
 
 <br/>
 
@@ -43,7 +42,7 @@
 ```Infra: AWS (EC2, RDS, S3), Cloudtype(PaaS), Git, GitHub```<br/><br/>
 ```Back-end: NodeJS, Express, MySQL```<br/><br/>
 ```Front-end: React, JavaScript, Tailwind CSS, Bootstrap```<br/><br/>
-```IDE: Cursor, VSCode```
+```IDE: VSCode, Cursor```
 
 <br/><br/>
 
@@ -54,7 +53,7 @@
 
 - **app:**<br/>
   route 페이지 그룹화<br/><br/>
-- **context:** <br/>광역 state 저장 및 이용<br/><br/>
+- **context:** <br/>전역 상태 저장 및 사용<br/><br/>
 - **features:** <br/>특정 서비스 기능 구조 그룹화<br/><br/>
 - **pages:** <br/>route UI 실현 페이지<br/><br/>
 - **entities:** <br/>데이터 중심 그룹화 (useHooks)<br/><br/>
