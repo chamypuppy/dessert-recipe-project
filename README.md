@@ -1,11 +1,15 @@
 디저트 레시피 공유 풀스택 서비스 `Made Sweet`
 --
-다양한 디저트 조리 방식을 공유하는 Full-Stack 웹 서비스 구축 및 AWS 기반 인프라 운영<br/><br/><br/>
-<a href="http://aws-dessert-client-s3.s3-website.ap-northeast-2.amazonaws.com/">🧩 서비스링크</a><br/><br/>
-<a href="https://drive.google.com/file/d/10gRyNFK0QM_UHB-dk4h19GfrIHsmmN-M/view?usp=sharing">🌏 [Full-Stack] 포트폴리오 (26.03.09~)</a><br/><br/>
-<a href="https://drive.google.com/file/d/1lO6QEEfBS95ZxL3NH_gb-l-K71d_y81y/view?usp=sharing)">🌏 [Cloud Engineer] 포트폴리오 (26.03.09~)</a><br/><br/>
-<a href="https://drive.google.com/file/d/1EkWlBU6DzKug0rMW-6adauH68t_aGzri/view?usp=sharing">🌏 서비스링크 작동 시연 (25.09.21~)</a><br/><br/>
+다양한 디저트 조리 방식을 공유하는 Full-Stack 웹 서비스 구축 및 AWS 기반 인프라 운영<br/><br/>
+- <a href="https://d27y0w51j8dqvr.cloudfront.net/">서비스링크</a><br/><br/>
+- <a href="https://drive.google.com/file/d/10gRyNFK0QM_UHB-dk4h19GfrIHsmmN-M/view?usp=sharing">[Full-Stack] 포트폴리오 (26.03.09~)</a><br/><br/>
+- <a href="https://drive.google.com/file/d/1lO6QEEfBS95ZxL3NH_gb-l-K71d_y81y/view?usp=sharing)">[Cloud Engineer] 포트폴리오 (26.03.09~)</a><br/><br/>
+- <a href="https://drive.google.com/file/d/1EkWlBU6DzKug0rMW-6adauH68t_aGzri/view?usp=sharing">서비스링크 작동 시연 (25.09.21~)</a><br/><br/>
 
+※ AWS 배포 이후부터는 ```EC2``` 및 ```s3, cloudFront``` 연결을 위해 ```aws-dessert-server```와 ```aws-dessert-client``` 2개의 리포지토리로 나누어 운영 중이며<br/>
+이 레포지토리는 ```이전 개발 및 ReadMe``` 전용 링크로 소개하고 있습니다.<br/><br/>
+- <a href="https://github.com/chamypuppy/aws-dessert-server">백엔드 리포지토리 (aws-dessert-server)</a><br/>
+- <a href="https://github.com/chamypuppy/aws-dessert-client">프론트 리포지토리 (aws-dessert-client)</a><br/><br/>
 
 <br/>
 
